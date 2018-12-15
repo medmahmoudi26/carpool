@@ -113,7 +113,7 @@
                       <% if (cars != "") {%>
                   <select name="car">
                     <% cars.forEach(function(car) {%>
-                      <option value="<%= car.car %>"><%= car.car %></option>
+                      <option value="<%= car._id %>"><%= car.car %></option>
                       <% }) %>
                   </select>
                   <% }else { %>

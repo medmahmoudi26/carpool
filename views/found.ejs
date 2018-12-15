@@ -106,10 +106,10 @@
 			<div class="row row-p	b-md">
 
 <a href="/detail/<%= usr.userid %>" target="_blank"><%= usr.nom %> <%= usr.prenom %></a> part de <b> <%= usr.depart%> </b> vers <b> <%= usr.dest %> </b> le <b> <%= usr.allezDate %> </b><br>
-email: <b> <%= usr.email %> </b> <br>
-profil fb: <b> <%= usr.facebook %> </b> <br>
-numero telephone : <b><%= usr.num %></b><br>
+Description:
+<%= usr.description %>
 Véhicule: <b><%= usr.car %></b><br>
+Temps: <b><%= usr.allezTime %></b>
 <% if( typeof user != 'undefined') { %>
   <!-- if places number not 0 show resrvation button else show that number of places is complete -->
 <% if (usr.places != 0) {%>
@@ -132,9 +132,8 @@ Véhicule: <b><%= usr.car %></b><br>
 
 <a href="/detail/<%= usr.userid %>" target="_blank"><%= usr.nom %> <%= usr.prenom %></a> part de <%= usr.depart %> vers <%= usr.dest %> le <i><%= usr.allezDate %></i> et passe par <b><%= usr.etape%></b>
 l'heure: <i> <%= usr.allezHeure %> </i><br>
-email: <%= usr.email %> <br>
-profil fb: <%= usr.facebook %> <br>
-numero telephone : <%= usr.num %><br>
+Description:
+<%= usr.description %>
 Véhicule: <b><%= usr.car %></b><br>
 <!-- buttopn with proposer id and reserver id -->
 <% if(typeof user != 'undefined') { %>

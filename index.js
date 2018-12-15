@@ -162,27 +162,24 @@ app.get('/mesreservations', function (req,res) {
 
 //chercher un traget
 app.post('/chercher', function(req,res){
-  if (!req.session.user) res.redirect("notlogged");
   if(req.body.depart && req.body.dest && req.body.date){
     // find allant
     traget.find({
-      depart:    req.body.depart,
-      dest:      req.body.dest,
-      allezDate: new DateOnly(req.body.date).toISOString() // date is stored in string format in the tragets schema
+      depart      : req.body.depart,
+      dest        : req.body.dest,
+      allezDate   : new DateOnly(req.body.date).toISOString(),
+      date_object : {$gte: req.body.date} // date is stored in string format in the tragets schema
     }, function(error, allant){
       if (error) res.render('error', {error: error});
-      // transfer date object to iso string
-      if (allant.allezDate) allant.allezDate = allant.allezDate.toISOString();
       // find en etap
       traget.find({
         etape:      req.body.depart,
-        dest:       req.body.dest,
-        allezDate:  new DateOnly(req.body.date)
+        dest        : req.body.dest,
+        allezDate   : new DateOnly(req.body.date).toISOString(),
+        date_object : {$gte: req.body.date}
       }, function (error, etape) {
         if (error) res.render('error',{error: error});
         if (req.session.user){
-          //transfer date object to iso string
-          if (etape.allezDate)  etape.allezDate = etape.allezDate.toISOString();
           res.render('found',{allant: allant, etape:etape, user:req.session.user});
         }else {
           //transfer date object to iso string
@@ -197,34 +194,33 @@ app.post('/chercher', function(req,res){
 app.post("/aller1", function (req,res) {
   if (!req.session.user) res.redirect("notlogged");
   if (!req.body.allerDate && !req.body.finDate && req.body.allezTime && req.body.finTime && req.body.etab) res.render("error", {error: "une erreure s'est produite"})
-  var allezDate   = new DateOnly(req.body.allezDate);
-  var finDate     = new DateOnly(req.body.finDate);
-  var allezTime   = req.body.allezTime; // matin ou apres midi
-  var finTime     = req.body.finTime; // matin ou apres midi
-  var etab        = req.body.etab // etablissement
+  req.body.allezDate = new Date(req.body.allezDate); //convert to date-only object the allez et fin date
+  req.body.finDate   = new Date(req.body.finDate);
+  var etab           = req.body.etab // etablissement
   // if date of start is bigger than the final date tell error
-  if (allezDate > finDate) res.render("allerProp1", {user: req.session.user, error: "les dates ne sont pas valides"});
+  if (req.body.allezDate > req.body.finDate) res.render("allerProp1", {user: req.session.user, error: "les dates ne sont pas valides"});
   cardispo.find({
     $or : [
       {
-        dispo: true,
-        etab: etab
+        brand_new  : true,
+        etab       : etab
       },
       {
-        dispo: false,
-        $or: [
-          {endDate : {$lte: allezDate}, endTime: {$ne: allezTime}},
-          {startDate : {$gte: finDate}, startTime: {$ne: finTime}}
-        ],
-        etab: etab
+        dispo         : false,
+        FreeStartDate : {$lte: req.body.allezDate} , // car ends being busy on a date less or equal to the date we choose to start using
+        FreeEndDate   : {$gte: req.body.finDate} , // car starts being busy after or at the date we choose to stop using
+        etab           : etab
+    },
+    {
+        half_dispo    : true,
+        FreeStartDate : {$lte: req.body.allezDate},
+        etab          : etab
     }]
   }, function (error, cars) {
     console.log("[+] Finding car")
     if (error) res.render("allerProp1", {user: req.session.user, error:error});
     if (cars) {
-      // the body request will be in session to be included
-      // in databse once the rest of the information is done
-      req.session.aller1 = req.body;
+      req.session.aller1 = req.body; // the body request will be in session to be needed in step 2
       console.log(req.body);
       res.render("allerProp2", {user:req.session.user, aller1: req.body, cars:cars });
     }
@@ -234,59 +230,125 @@ app.post("/aller1", function (req,res) {
 // step 2 of reserving a path
 app.post("/aller2", function (req,res) {
   if (!req.session.aller1) res.redirect("/proposer");
-  var car   = req.body.car;
+  var cardispo_id   = req.body.car;
   var desc  = req.body.desc;
-  cardispo.findOneAndUpdate({car: car}, {$set: {dispo: false}},function (error, suc1) {
-    if (error) {
-      delete req.session.aller1;
-      res.render("allerProp2", {error: "une erreur s'est survenue, réessayer", user:req.session.user});
-    }
-    else if (suc1) {
-      console.log("[ + ] car set to non dispo")
+  cardispo.findOne({_id: cardispo_id}, function (error,cardispo_result) {
+    if (error) res.render("allerProp1", {user: req.session.user, error: error})
+    var car = cardispo_result
+  console.log(car.brand_new);
+  if (car.brand_new === true) {
+    cardispo.findOneAndUpdate({_id: cardispo_id}, {$set:
+      {
+        brand_new     : false,
+        car           : car.car,
+        FreeStartDate : new DateOnly(0),
+        FreeEndDate   : req.session.aller1.allezDate
+      }
+    }, function (error , result_car) {
       cardispo.create({
-        car:        car,
-        startDate:  req.session.aller1.allezDate,
-        endDate:    req.session.aller1.finDate,
-        dispo:      false,
-        startTime:  req.session.aller1.allezTime,
-        endTime:    req.session.aller1.finTime,
-        etab:       req.session.aller1.etab
-      }, function (error, suc2) {
-        if (error) {
-          delete req.session.aller1;
-          res.render("allerProp2", {error: "Une erreur s'est produite", user: req.session.user});
-        }
-        else if (suc2) {
-          console.log("[ + ] New cardispo created");
-          cars.findOne({mat: car}, function (error, found) {
-            if (error) {
-              delete req.session.aller1;
-              res.render("allerProp2", {error: "une erreure s'est produite", user: req.session.user});
+        brand_new     : false,
+        car           : car.car,
+        FreeStartDate : req.session.aller1.finDate,
+        half_dispo    : true,
+        places        : car.places,
+        etab          : car.etab
+      }, function (error, final_car) {
+        if (error) res.render("allerProp1", {user:req.session.user, error: error})
+        else if (final_car) {
+        console.log();
+        var allezDate = req.session.aller1.allezDate
+        var allezDate = new DateOnly(allezDate).toISOString()
+        var allezTime = new DateOnly(allezDate).toLocaleTimeString()
+          traget.create({
+            userid      : req.session.user._id,
+            nom         : req.session.user.nom,
+            prenom      : req.session.user.prenom,
+            depart      : req.session.aller1.depart,
+            etape       : req.session.aller1.etape,
+            dest        : req.session.aller1.dest,
+            date_object : req.session.aller1.allezDate,
+            allezDate   : allezDate,
+            allezTime   : allezTime,
+            places      : car.places,
+            car         : car.car,
+            description : desc
+          }, function (error , traget) {
+            if (error) res.render("allerProp1", {user:req.session.user, error: error});
+            if (traget) {
+              res.render("success", {traget: traget, user: req.session.user})
             }
-            else if (found) {
-              var places    = found.places;
-              var allezDate = new DateOnly(req.session.aller1.allezDate).toISOString(); // traget date should be string
+          });
+        }
+      });
+    });
+  } else {
+    if (car.half_dispo) {
+      cardispo.findOneAndUpdate({_id: cardispo_id}, {$set:
+        {
+          FreeEndDate : req.session.aller1.allezDate,
+          half_dispo  : false
+        }
+      }, function (error, result_car) {
+        if (error) res.render('error', {user: req.session.user, error:error});
+        else if (result_car) {
+          var allezDate = req.session.aller1.allezDate
+          var allezDate = new DateOnly(allezDate).toISOString()
+          var allezTime = new DateOnly(allezDate).toLocaleTimeString()
+          traget.create({
+            userid      : req.session.user._id,
+            nom         : req.session.user.nom,
+            prenom      : req.session.user.prenom,
+            depart      : req.session.aller1.depart,
+            etape       : req.session.aller1.etape,
+            dest        : req.session.aller1.dest,
+            date_object : req.session.aller1.allezDate,
+            allezDate   : allezDate,
+            allezTime   : req.session.aller1.allezDate.toLocaleTimeString(),
+            places      : car.places,
+            car         : car.car,
+            description : desc
+          }, function (error , traget) {
+            if (error) res.render("aller1", {user:req.session.user, error: error});
+            if (traget) {
+              res.render("success", {traget: traget, user: req.session.user})
+            }
+          });
+        }
+      });
+    } else {
+      cardispo.findOneAndUpdate({_id: cardispo_id}, {$set:
+        {
+          FreeEndDate : req.session.aller1.allezDate,
+          half_dispo  : false
+        }
+      }, function (error, result_car) {
+        if (error) res.render("allerProp1", {user:req.session.user, error: error});
+        else if (result_car) {
+          cardispo.create({
+            brand_new     : false,
+            FreeStartDate : req.session.aller1.finDate,
+            half_dispo    : true,
+            cars          : car.car
+          }, function (error, final_car) {
+            if (error) res.render("allerProp1", {user: req.session.user, error: error})
+            else if (final_car) {
               traget.create({
-                userid:      req.session.user._id,
-                nom:         req.session.user.nom,
-                prenom:      req.session.user.prenom,
-                depart:      req.session.aller1.depart,
-                etape:       req.session.aller1.etape,
-                dest:        req.session.aller1.dest,
-                allezDate:   allezDate,
-                allezTime:   req.session.aller1.allezTime, // matin ou apresmidi
-                places:      places,
-                email:       req.session.user.email,
-                num:         req.session.user.number,
-                facebook:    req.session.user.facebook,
-                car:         car, //mat of the car
-                description: desc
-              }, function(error, success){
-                console.log(success);
-                delete req.session.aller1;
-                if (error) res.render('allerProp1', {error:"Une erreur s'est produite lors de la création de votre trajet"});
-                else if(success) {
-                  res.render('success', {elmnt: success, user:req.session.user});
+                userid      : req.session.user._id,
+                nom         : req.session.user.nom,
+                prenom      : req.session.user.prenom,
+                depart      : req.session.aller1.depart,
+                etape       : req.session.aller1.etape,
+                dest        : req.session.aller1.dest,
+                date_object : req.session.aller1.allezDate,
+                allezDate   : req.session.aller1.allezDate.toISOString(),
+                allezTime   : req.session.aller1.allezDate.toLocaleTimeString(),
+                places      : car.places,
+                car         : car.car,
+                description : desc
+              }, function (error , traget) {
+                if (error) res.render("aller1", {user:req.session.user, error: error});
+                if (traget) {
+                  res.render("success", {traget: traget, user: req.session.user})
                 }
               });
             }
@@ -294,44 +356,47 @@ app.post("/aller2", function (req,res) {
         }
       });
     }
-  });
+  }
+});
 });
 
 //proposer aller&retour step 1
 app.post("/aller&retour1", function (req,res) {
   if (!req.session.user) res.redirect("notlogged");
-  var allezDate   = new DateOnly(req.body.allezDate);
-  var finDate     = new DateOnly(req.body.finDate);
-  var allezTime   = req.body.allezTime; // matin ou apres midi
-  var finTime     = req.body.finTime; // matin ou apres midi
-  var etab        = req.body.etab
+  req.body.allezDate = new DateOnly(req.body.allezDate);
+  req.body.finDate   = new DateOnly(req.body.finDate);
+  var etab           = req.body.etab
   // if date of start is bigger than the final date tell error
   if (allezDate > finDate) res.render("propBroth1", {user: req.session.user, error: "les dates ne sont pas valides"});
-  cardispo.find({
-    $or : [
-      {
-        dispo: true,
-        etab: etab
-      },
-      {
-        dispo: false,
-        $or: [
-          {endDate : {$lte: allezDate}, endTime: {$ne: allezTime}},
-          {startDate : {$gte: finDate}, startTime: {$ne: finTime}}
-        ],
-        etab: etab
-    }]
-  }, function (error, cars) {
-    console.log("[+] Finding car ");
-    if (error) res.render("propBroth1", {user: req.session.user, error:error});
-    if (cars) {
-      // the body request will be in session to be included
-      // in databse once the rest of the information is done
-      req.session.allerRetour = req.body;
-      console.log(req.body);
-      res.render("propBoth2", {user:req.session.user, allerRetour: req.body, cars:cars });
-    }
-  });
+    cardispo.find({
+      $or : [
+        {
+          dispo: true,
+          etab: etab
+        },
+        {
+          dispo: false,
+          $or: [
+            {endDate : {$lte: allezDate} },
+            {startDate : {$gte: finDate} },
+          ],
+          etab: etab
+      }]
+    }, function (error, cars) {
+      console.log("[+] Finding car for step 2 aller&retour")
+      if (error) res.render("propBoth2", {user: req.session.user, error:error});
+      //check if same car matches query or function, there will be duplicated elemnt in the list
+      if (cars) {
+        var free_cars_duplicated = []
+        cars.forEach(function (exp) {
+          free_cars_duplicated.push(exp.car) // pushing a car to the list of free cars
+        });
+        var free_cars = removeDuplicates(free_cars_deplicated) // remove duplicated matrs from the cars list
+        req.session.aller1 = req.body; // the body request will be in session to be needed in step 2
+        console.log(req.body);
+        res.render("propBoth2", {user:req.session.user, aller1: req.body, cars:free_cars });
+      }
+    });
 });
 
 // step 2 of reserving a path aller&retour
@@ -351,13 +416,11 @@ app.post("/aller&retour2", function (req,res) {
       console.log("[ + ] car set to non dispo")
       // make car busy in the period the user is using the car
       cardispo.create({
-        car:        car,
-        startDate:  req.session.allerRetour.allezDate,
-        endDate:    req.session.allerRetour.finDate,
-        dispo:      false,
-        startTime:  req.session.allerRetour.allezTime,
-        endTime:    req.session.allerRetour.finTime,
-        etab:       req.session.allerRetour.etab
+        car       :  car,
+        startDate :  req.session.allerRetour.allezDate,
+        endDate   :  req.session.allerRetour.finDate,
+        dispo     :  false,
+        etab      :  req.session.allerRetour.etab
       }, function (error, suc2) {
         if (error) {
           delete req.session.allerRetour;
@@ -373,7 +436,8 @@ app.post("/aller&retour2", function (req,res) {
             }
             else if (found) {
               var places    = found.places; // find the number of places the car can hold
-              var allezDate = new DateOnly(req.session.allerRetour.allezDate).toISOString(); // aller depart date should be string
+              var allezDate = req.session.allerRetour.allezDate.toISOString(); // aller depart date should be string
+              var allezTime = req.session.allezRetour.toLocaleTimeString(); // the time will be a time string format
               traget.create({
                 userid:      req.session.user._id,
                 nom:         req.session.user.nom,
@@ -382,7 +446,7 @@ app.post("/aller&retour2", function (req,res) {
                 etape:       req.session.allerRetour.etape,
                 dest:        req.session.allerRetour.dest,
                 allezDate:   allezDate,
-                allezTime:   req.session.allerRetour.allezTime, // matin ou apresmidi
+                allezTime:   allezTime,
                 places:      places,
                 email:       req.session.user.email,
                 num:         req.session.user.number,
@@ -397,7 +461,8 @@ app.post("/aller&retour2", function (req,res) {
                 }
                 // if aller traget created start the retour traget
                 console.log(traget1);
-                var finDate = new DateOnly(req.session.allerRetour1.finDate).toISOString(); // retour depart date should be string(the final date will be the depart date)
+                var retourDepartDate  = req.body.retourDepart.toISOString(); // retour depart date should be string(the final date will be the depart date)
+                var retourDepartTime  = req.body.allezREtou.finDate.toLocaleTimeString(); // convert to time string format
                 traget.create({
                   userid:      req.session.user._id,
                   nom:         req.session.user.nom,
@@ -405,8 +470,8 @@ app.post("/aller&retour2", function (req,res) {
                   depart:      req.session.allerRetour.dest, // inverse depart to be destination
                   etape:       req.session.allerRetour.etape,
                   dest:        req.session.allerRetour.depart, // inverse destination to be depart
-                  allezDate:   finDate,
-                  allezTime:   req.session.allerRetour.retourDepartTime, // quand partez vous matin ou apresmidi
+                  allezDate:   retourDepartDate,
+                  allezTime:   retourDepartTime, // quand partez vous matin ou apresmidi
                   places:      places,
                   email:       req.session.user.email,
                   num:         req.session.user.number,
@@ -446,9 +511,10 @@ app.get("/testcar", function (req,res) {
     if (suc1) {
       console.log(suc1);
       cardispo.create({
-        car: suc1.mat,
-        etab: suc1.etablissement,
-        dispo: true
+        brand_new : true,
+        car       : suc1.mat,
+        etab      : suc1.etablissement,
+        places    : suc1.places
       }, function (error, suc2) {
         if (error) res.render("error", {error: error});
         else if(suc2) {
@@ -534,12 +600,16 @@ app.post('/update', function (req,res) {
     });
   }
 });
+
+// ######[Functions]#########
+
 //function to delete the redirect to session
 function rmredire(req,res){
   if (req.session.redire){
     delete req.session.redire;
   }
 }
+
 // function to find dates between two dates
 var getDates = function(startDate, endDate) {
   startDate.setDate(startDate.getDate()+1);
@@ -558,12 +628,21 @@ var getDates = function(startDate, endDate) {
   return dates;
 };
 
+function removeDuplicates(arr){
+    let unique_array = []
+    for(let i = 0;i < arr.length; i++){
+        if(unique_array.indexOf(arr[i]) == -1){
+            unique_array.push(arr[i])
+        }
+    }
+    return unique_array
+}
 
 //listen
 console.log("listening on port 3000");
 server.listen(80);
 
-// socket
+// #########[sockets]#######
 var io = require('socket.io')(server);
 io.sockets.on('connection', function(socket){
   console.log('user connected');

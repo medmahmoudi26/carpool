@@ -106,14 +106,14 @@
 
 										<div class="tab-content-inner active" data-content="signup">
                       <font color="red"><% if (typeof error != "undefined") {%> <%= error %> <% } %></font>
-											<form action="/aller2" method="post" autocomplete="off">
+											<form action="/aller&retour2" method="post" autocomplete="off">
                     <div class="row form-group">
                     <div class="col-md-12">
 
                       <% if (cars != "") {%>
                   <select name="car">
                     <% cars.forEach(function(car) {%>
-                      <option value="<%= car.car %>"><%= car.car %></option>
+                      <option value="<%= car._id %>"><%= car.car %></option>
                       <% }) %>
                   </select>
                   <% }else { %>
@@ -129,8 +129,8 @@
             </div>
             <div class="row form-group">
               <div class="col-md-12">
-                <label >Quand partez vous de retour</label>
-                <input type="text" class="form-control" name="finDate" required="true" >
+                <label >Quand partez vous de nouveau</label>
+                <input type="text" class="form-control" name="retourDepartDate" required="true" >
               </div>
             </div>
             <input type="submit" name="submit" value="submit">

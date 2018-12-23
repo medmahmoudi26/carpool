@@ -105,7 +105,7 @@
 
 										<div class="tab-content-inner active" data-content="signup">
                       <font color="red"><% if (typeof error != "undefined") {%> <%= error %> <% } %></font>
-											<form action="/aller1" method="post" autocomplete="off">
+											<form action="/aller&retour1" method="post" autocomplete="off">
                         <div class="row form-group">
 													<div class="col-md-12">
 														<label for="Départ">Départ</label>
@@ -129,19 +129,13 @@
                   <div class="row form-group">
                     <div class="col-md-8">
                       <label for="date-start">Date de départ</label>
-                      <input type="text" id="date-start" class="form-control" name="allezDate" required="true" readonly="true">
+                      <input type="text" class="form-control" name="allezDate" required="true" >
                     </div>
-                    <div class="col-md-4">
-                      <label for="allezTime">Temps de départ</label>
-                      <select name="allezTime">
-                        <option value="matin">Matin</option>
-                        <option value="apres-midi">Apres Midi</option>
-                      </select>
-                    </div>
+
                     <div class="row form-group">
-                      <div class="col-md-4">
+                      <div class="col-md-8">
                         <label for="finTime">Quand vous allez rentrez la voiture</label>
-                        <input type="text" name="finDate">
+                        <input type="text" class="form-control" name="finDate">
                       </div>
                     </div>
                     <div class="row form-group">

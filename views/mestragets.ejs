@@ -81,9 +81,9 @@
       <% propo.forEach(function(propo) { %>
         <p>
           vous avez proposé un traget de <b><u><%= propo.depart %></u></b> vers <b><u><%= propo.dest %></u></b>
-          le <b><i><%= propo.allezDate %></i></b> à <b><i><%= propo.allezHeure %></i></b><br>
-					etape: <b><u><%= propo.etape %></b></u><br>
-					Véhicule <b><u><%= propo.car %></u></b><br>
+          le <b><%= propo.allezDate %></b> à <b><%= propo.allezTime %></b><br>
+					etape: 		<b><%= propo.etape %></b><br>
+					Véhicule: <b><%= propo.car %></b><br>
           nombre de places: <b><% if (propo.places != 0) { %> <%= propo.places %> <% }else { %> tous les places sont reservées <% } %></b>
         </p>
 				<hr>

@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 var datesBetween = require("dates-between");
 var DateOnly = require("date-only");
+const nodemailer = require('nodemailer');
 
 // declare app variable server and connect to database
 app = express();
@@ -398,33 +399,36 @@ app.post("/aller&retour1", function (req,res) {
   req.body.finDate   = new Date(req.body.finDate+" UTC");
   var etab           = req.body.etab // etablissement
   // if date of start is bigger than the final date tell error
-  if (req.body.allezDate > req.body.finDate) res.render("propBoth1", {user: req.session.user, error: "les dates ne sont pas valides"});
-  cardispo.find({
-    $or : [
-      {
-        brand_new  : true,
-        etab       : etab
+  if (req.body.allezDate > req.body.finDate) {
+    res.render("propBoth1", {user: req.session.user, error: "les dates ne sont pas valides"});
+  } else {
+    cardispo.find({
+      $or : [
+        {
+          brand_new  : true,
+          etab       : etab
+        },
+        {
+          half_dispo    : false,
+          FreeStartDate : {$lte: req.body.allezDate} , // car ends being busy on a date less or equal to the date we choose to start using
+          FreeEndDate   : {$gte: req.body.finDate} , // car starts being busy after or at the date we choose to stop using
+          etab          : etab
       },
       {
-        half_dispo    : false,
-        FreeStartDate : {$lte: req.body.allezDate} , // car ends being busy on a date less or equal to the date we choose to start using
-        FreeEndDate   : {$gte: req.body.finDate} , // car starts being busy after or at the date we choose to stop using
-        etab          : etab
-    },
-    {
-        half_dispo    : true,
-        FreeStartDate : {$lte: req.body.allezDate},
-        etab          : etab
-    }]
-  }, function (error, cars) {
-    console.log("[+] Finding car")
-    if (error) res.render("propBoth1", {user: req.session.user, error:error});
-    if (cars) {
-      req.session.aller1 = req.body; // the body request will be in session to be needed in step 2
-      console.log(req.body);
-      res.render("propBoth2", {user:req.session.user, aller1: req.body, cars:cars });
-    }
-  });
+          half_dispo    : true,
+          FreeStartDate : {$lte: req.body.allezDate},
+          etab          : etab
+      }]
+    }, function (error, cars) {
+      console.log("[+] Finding car")
+      if (error) res.render("propBoth1", {user: req.session.user, error:error});
+      if (cars) {
+        req.session.aller1 = req.body; // the body request will be in session to be needed in step 2
+        console.log(req.body);
+        res.render("propBoth2", {user:req.session.user, aller1: req.body, cars:cars });
+      }
+    });
+  }
 });
 
 // step 2 of reserving a path aller&retour
@@ -432,109 +436,42 @@ app.post("/aller&retour2", function (req,res) {
   if (!req.session.aller1) res.redirect("/notlogged");
   var cardispo_id           = req.body.car;
   var desc                  = req.body.desc;
-  req.body.retourDepartDate = new Date(req.body.retourDepartDate); // date in utc time
-  cardispo.findOne({_id: cardispo_id}, function (error,cardispo_result) {
-    if (error) res.render("allerProp1", {user: req.session.user, error: error})
-    var car = cardispo_result
-    if (car.brand_new === true) {
-      cardispo.findOneAndUpdate({_id: cardispo_id}, {$set:
-        {
-          brand_new     : false,
-          car           : car.car,
-          FreeStartDate : new DateOnly(0),
-          FreeEndDate   : req.session.aller1.allezDate,
-          half_dispo    : false
-        }
-      }, function (error , result_car) {
-        cardispo.create({
-          brand_new     : false,
-          car           : car.car,
-          FreeStartDate : req.session.aller1.finDate,
-          half_dispo    : true,
-          places        : car.places,
-          etab          : car.etab
-        }, function (error, final_car) {
-          if (error) res.render("allerProp1", {user:req.session.user, error: error})
-          else if (final_car) {
-          var allezDate = new Date(req.session.aller1.allezDate)
-          var hour      = allezDate.getUTCHours()
-          var houred    = addzero(hour)
-          var mins      = allezDate.getUTCMinutes()
-          var mined     = addzero(mins)
-          var allezTime = houred+":"+mined // retreive the time in a string format
-          var allezDate = new DateOnly(allezDate).toISOString() // date in string format
-            traget.create({
-              userid      : req.session.user._id,
-              nom         : req.session.user.nom,
-              prenom      : req.session.user.prenom,
-              depart      : req.session.aller1.depart,
-              etape       : req.session.aller1.etape,
-              dest        : req.session.aller1.dest,
-              date_object : req.session.aller1.allezDate,
-              allezDate   : allezDate,
-              allezTime   : allezTime,
-              places      : car.places,
-              car         : car.car,
-              description : desc
-            }, function (error , traget1) {
-              if (error) res.render("allerProp1", {user:req.session.user, error: error});
-              if (traget1) {
-                var retourDepartDate = new Date(req.session.aller1.retourDepartDate)
-                var hour             = retourDepartDate.getUTCHours()
-                var houred           = addzero(hour)
-                var mins             = retourDepartDate.getUTCMinutes()
-                var mined            = addzero(mins)
-                var allezTime        = houred+":"+mined // retreive the time in a string format
-                var retourDepartDate = new DateOnly(retourDepartDate).toISOString() // date in string format
-                traget.create({
-                  userid      : req.session.user._id,
-                  nom         : req.session.user.nom,
-                  prenom      : req.session.user.prenom,
-                  depart      : req.session.aller1.dest,
-                  etape       : req.session.aller1.etape,
-                  dest        : req.session.aller1.depart,
-                  date_object : req.body.retourDepartDate, // date object for later aggregation
-                  allezDate   : retourDepartDate, // date in string format
-                  allezTime   : allezTime, // time in string format
-                  places      : car.places,
-                  car         : car.car,
-                  description : desc
-                }, function (error, traget2) {
-                  if (error) res.render("propBoth2", {user: req.session.user, error: error});
-                  else if (traget2) res.render("success", {traget: traget1, user: req.session.user, traget2: traget2});
-                });
-              }
-            });
-          }
-        });
-      });
-    } else {
-      if (car.half_dispo === true) {
+  req.body.retourDepartDate = new Date(req.body.retourDepartDate+" UTC"); // date in utc time
+  var finDate               = new Date(req.session.aller1.finDate)
+  console.log(req.body.retourDepartDate);
+  if (req.body.retourDepartDate > finDate) {
+    res.render("allerProp1", {user:req.session.user, error:"la date de retour n'est pas valide"})
+  } else {
+    cardispo.findOne({_id: cardispo_id}, function (error,cardispo_result) {
+      if (error) res.render("allerProp1", {user: req.session.user, error: error})
+      var car = cardispo_result
+      if (car.brand_new === true) {
         cardispo.findOneAndUpdate({_id: cardispo_id}, {$set:
-          // make the old half dispo full
           {
-            FreeEndDate : req.session.aller1.allezDate,
-            half_dispo  : false
+            brand_new     : false,
+            car           : car.car,
+            FreeStartDate : new DateOnly(0),
+            FreeEndDate   : req.session.aller1.allezDate,
+            half_dispo    : false
           }
-        }, function (error, result_car) {
-            if (error) res.render("error", {user:req.session.user, error: error});
-            cardispo.create({
-              brand_new     : false,
-              car           : car.car,
-              FreeStartDate : req.session.aller1.finDate,
-              half_dispo    : true,
-              etab          : req.session.aller1.etab,
-              places        : car.places
-            }, function (error, result_car2) {
-            if (error) res.render('error', {user: req.session.user, error:error});
-            else if (result_car) {
-              var allezDate = new Date(req.session.aller1.allezDate)
-              var hour      = allezDate.getUTCHours()
-              var houred    = addzero(hour)
-              var mins      = allezDate.getUTCMinutes()
-              var mined     = addzero(mins)
-              var allezTime = houred+":"+mined
-              var allezDate = new DateOnly(req.session.allezDate).toISOString()
+        }, function (error , result_car) {
+          cardispo.create({
+            brand_new     : false,
+            car           : car.car,
+            FreeStartDate : req.session.aller1.finDate,
+            half_dispo    : true,
+            places        : car.places,
+            etab          : car.etab
+          }, function (error, final_car) {
+            if (error) res.render("allerProp1", {user:req.session.user, error: error})
+            else if (final_car) {
+            var allezDate = new Date(req.session.aller1.allezDate)
+            var hour      = allezDate.getUTCHours()
+            var houred    = addzero(hour)
+            var mins      = allezDate.getUTCMinutes()
+            var mined     = addzero(mins)
+            var allezTime = houred+":"+mined // retreive the time in a string format
+            var allezDate = new DateOnly(allezDate).toISOString() // date in string format
               traget.create({
                 userid      : req.session.user._id,
                 nom         : req.session.user.nom,
@@ -549,9 +486,8 @@ app.post("/aller&retour2", function (req,res) {
                 car         : car.car,
                 description : desc
               }, function (error , traget1) {
-                if (error) res.render("aller1", {user:req.session.user, error: error});
+                if (error) res.render("allerProp1", {user:req.session.user, error: error});
                 if (traget1) {
-                  var retourDepartDate = req.body.retourDepartDate
                   var retourDepartDate = new Date(req.body.retourDepartDate)
                   var hour             = retourDepartDate.getUTCHours()
                   var houred           = addzero(hour)
@@ -582,32 +518,32 @@ app.post("/aller&retour2", function (req,res) {
           });
         });
       } else {
-        cardispo.findOneAndUpdate({_id: cardispo_id}, {$set:
-          {
-            FreeEndDate : req.session.aller1.allezDate,
-            half_dispo  : false
-          }
-        }, function (error, result_car) {
-          if (error) res.render("allerProp1", {user:req.session.user, error: error});
-          else if (result_car) {
-            cardispo.create({
-              brand_new     : false,
-              FreeStartDate : req.session.aller1.finDate,
-              FreeEndDate   : result_car.FreeEndDate,
-              half_dispo    : false,
-              car           : car.car,
-              etab          : car.etab,
-              places        : car.places
-            }, function (error, final_car) {
-              if (error) res.render("allerProp1", {user: req.session.user, error: error})
-              else if (final_car) {
+        if (car.half_dispo === true) {
+          cardispo.findOneAndUpdate({_id: cardispo_id}, {$set:
+            // make the old half dispo full
+            {
+              FreeEndDate : req.session.aller1.allezDate,
+              half_dispo  : false
+            }
+          }, function (error, result_car) {
+              if (error) res.render("error", {user:req.session.user, error: error});
+              cardispo.create({
+                brand_new     : false,
+                car           : car.car,
+                FreeStartDate : req.session.aller1.finDate,
+                half_dispo    : true,
+                etab          : req.session.aller1.etab,
+                places        : car.places
+              }, function (error, result_car2) {
+              if (error) res.render('error', {user: req.session.user, error:error});
+              else if (result_car) {
                 var allezDate = new Date(req.session.aller1.allezDate)
                 var hour      = allezDate.getUTCHours()
                 var houred    = addzero(hour)
                 var mins      = allezDate.getUTCMinutes()
                 var mined     = addzero(mins)
                 var allezTime = houred+":"+mined
-                var allezDate = new DateOnly(allezDate).toISOString()
+                var allezDate = new DateOnly(req.session.allezDate).toISOString()
                 traget.create({
                   userid      : req.session.user._id,
                   nom         : req.session.user.nom,
@@ -652,11 +588,84 @@ app.post("/aller&retour2", function (req,res) {
                 });
               }
             });
-          }
-        });
+          });
+        } else {
+          cardispo.findOneAndUpdate({_id: cardispo_id}, {$set:
+            {
+              FreeEndDate : req.session.aller1.allezDate,
+              half_dispo  : false
+            }
+          }, function (error, result_car) {
+            if (error) res.render("allerProp1", {user:req.session.user, error: error});
+            else if (result_car) {
+              cardispo.create({
+                brand_new     : false,
+                FreeStartDate : req.session.aller1.finDate,
+                FreeEndDate   : result_car.FreeEndDate,
+                half_dispo    : false,
+                car           : car.car,
+                etab          : car.etab,
+                places        : car.places
+              }, function (error, final_car) {
+                if (error) res.render("allerProp1", {user: req.session.user, error: error})
+                else if (final_car) {
+                  var allezDate = new Date(req.session.aller1.allezDate)
+                  var hour      = allezDate.getUTCHours()
+                  var houred    = addzero(hour)
+                  var mins      = allezDate.getUTCMinutes()
+                  var mined     = addzero(mins)
+                  var allezTime = houred+":"+mined
+                  var allezDate = new DateOnly(allezDate).toISOString()
+                  traget.create({
+                    userid      : req.session.user._id,
+                    nom         : req.session.user.nom,
+                    prenom      : req.session.user.prenom,
+                    depart      : req.session.aller1.depart,
+                    etape       : req.session.aller1.etape,
+                    dest        : req.session.aller1.dest,
+                    date_object : req.session.aller1.allezDate,
+                    allezDate   : allezDate,
+                    allezTime   : allezTime,
+                    places      : car.places,
+                    car         : car.car,
+                    description : desc
+                  }, function (error , traget1) {
+                    if (error) res.render("aller1", {user:req.session.user, error: error});
+                    if (traget1) {
+                      var retourDepartDate = new Date(req.body.retourDepartDate)
+                      var hour             = retourDepartDate.getUTCHours()
+                      var houred           = addzero(hour)
+                      var mins             = retourDepartDate.getUTCMinutes()
+                      var mined            = addzero(mins)
+                      var allezTime        = houred+":"+mined // retreive the time in a string format
+                      var retourDepartDate = new DateOnly(retourDepartDate).toISOString() // date in string format
+                      traget.create({
+                        userid      : req.session.user._id,
+                        nom         : req.session.user.nom,
+                        prenom      : req.session.user.prenom,
+                        depart      : req.session.aller1.dest,
+                        etape       : req.session.aller1.etape,
+                        dest        : req.session.aller1.depart,
+                        date_object : req.body.retourDepartDate, // date object for later aggregation
+                        allezDate   : retourDepartDate, // date in string format
+                        allezTime   : allezTime, // time in string format
+                        places      : car.places,
+                        car         : car.car,
+                        description : desc
+                      }, function (error, traget2) {
+                        if (error) res.render("propBoth2", {user: req.session.user, error: error});
+                        else if (traget2) res.render("success", {traget: traget1, user: req.session.user, traget2: traget2});
+                      });
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
       }
-    }
-  });
+    });
+  }
 });
 
 // test add car
@@ -718,13 +727,16 @@ app.post('/register', function(req,res){
   if (req.body.password == req.body.confirm){
     var hashedpass = bcrypt.hashSync(req.body.password, 10);
     user.create({
-      nom: req.body.nom,
-      prenom: req.body.prenom,
-      email: req.body.email,
-      pass: hashedpass,
-      year: req.body.year,
-      number: req.body.number,
-      facebook: req.body.facebook
+      nom         : req.body.nom,
+      prenom      : req.body.prenom,
+      email       : req.body.email,
+      pass        : hashedpass,
+      year        : req.body.year,
+      number      : req.body.number,
+      facebook    : req.body.facebook,
+      bestdepart  : req.body.bestdepart,
+      bestdest    : req.body.bestdest
+
     }, function(error, user){
       if (error){ res.render('register', {ps:"cet email est déja utilisé !"});}
       else {
@@ -741,11 +753,13 @@ app.post('/update', function (req,res) {
   if (req.body.submit){
     console.log(req.session.user._id);
     user.findOneAndUpdate({_id: req.session.user._id},{$set:{
-      nom: req.body.nom,
-      prenom: req.body.prenom,
-      year: req.body.year,
-      number: req.body.number,
-      facebook: req.body.facebook
+      nom        : req.body.nom,
+      prenom     : req.body.prenom,
+      year       : req.body.year,
+      number     : req.body.number,
+      facebook   : req.body.facebook,
+      bestdepart : req.body.bestdepart,
+      bestdest   : req.body.bestdest
     }},{ new: true }, function (err, result) {
       console.log(result);
       if (err) res.render('error', {error:err});

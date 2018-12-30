@@ -329,7 +329,8 @@ app.post("/aller2", function (req,res) {
                 }, function (error , traget) {
                   if (error) res.render("aller1", {user:req.session.user, error: error});
                   if (traget) {
-                    res.render("success", {traget: traget, user: req.session.user})
+                    res.render("success", {traget: traget, user: req.session.user});
+                    sendmails(traget.depart, traget.etape, traget.dest, req);
                   }
                 });
               }
@@ -350,7 +351,7 @@ app.post("/aller2", function (req,res) {
               FreeStartDate : req.session.aller1.finDate, // car start being free when the user's journey ends
               FreeEndDate   : result_car.FreeEndDate,
               half_dispo    : false, // table waiting for FreeEndDate
-              cars          : car.car,
+              car           : car.car,
               places        : car.places,
               etab          : car.etab
             }, function (error, final_car) {
@@ -380,6 +381,7 @@ app.post("/aller2", function (req,res) {
                   if (error) res.render("aller1", {user:req.session.user, error: error});
                   if (traget) {
                     res.render("success", {traget: traget, user: req.session.user})
+                    sendmails(traget.depart, traget.etape, traget.dest, req);
                   }
                 });
               }
@@ -488,6 +490,7 @@ app.post("/aller&retour2", function (req,res) {
               }, function (error , traget1) {
                 if (error) res.render("allerProp1", {user:req.session.user, error: error});
                 if (traget1) {
+                  sendmails(traget1.depart, traget1.etape, traget1.dest, req);
                   var retourDepartDate = new Date(req.body.retourDepartDate)
                   var hour             = retourDepartDate.getUTCHours()
                   var houred           = addzero(hour)
@@ -510,7 +513,10 @@ app.post("/aller&retour2", function (req,res) {
                     description : desc
                   }, function (error, traget2) {
                     if (error) res.render("propBoth2", {user: req.session.user, error: error});
-                    else if (traget2) res.render("success", {traget: traget1, user: req.session.user, traget2: traget2});
+                    else if (traget2){
+                      sendmails(traget2.depart, traget2.etape, traget2.dest, req);
+                      res.render("success", {traget: traget1, user: req.session.user, traget2: traget2});
+                    }
                   });
                 }
               });
@@ -560,6 +566,7 @@ app.post("/aller&retour2", function (req,res) {
                 }, function (error , traget1) {
                   if (error) res.render("aller1", {user:req.session.user, error: error});
                   if (traget1) {
+                    sendmails(traget1.depart, traget1.etape, traget1.dest, req);
                     var retourDepartDate = new Date(req.body.retourDepartDate)
                     var hour             = retourDepartDate.getUTCHours()
                     var houred           = addzero(hour)
@@ -582,7 +589,10 @@ app.post("/aller&retour2", function (req,res) {
                       description : desc
                     }, function (error, traget2) {
                       if (error) res.render("propBoth2", {user: req.session.user, error: error});
-                      else if (traget2) res.render("success", {traget: traget1, user: req.session.user, traget2: traget2});
+                      else if (traget2){
+                        sendmails(traget2.depart, traget2.etape, traget2.dest, req);
+                        res.render("success", {traget: traget1, user: req.session.user, traget2: traget2});
+                      }
                     });
                   }
                 });
@@ -632,6 +642,7 @@ app.post("/aller&retour2", function (req,res) {
                   }, function (error , traget1) {
                     if (error) res.render("aller1", {user:req.session.user, error: error});
                     if (traget1) {
+                      sendmails(traget1.depart, traget1.etape, traget1.dest, req);
                       var retourDepartDate = new Date(req.body.retourDepartDate)
                       var hour             = retourDepartDate.getUTCHours()
                       var houred           = addzero(hour)
@@ -654,7 +665,10 @@ app.post("/aller&retour2", function (req,res) {
                         description : desc
                       }, function (error, traget2) {
                         if (error) res.render("propBoth2", {user: req.session.user, error: error});
-                        else if (traget2) res.render("success", {traget: traget1, user: req.session.user, traget2: traget2});
+                        else if (traget2){
+                          sendmails(traget2.depart, traget2.etape, traget2.dest, req);
+                          res.render("success", {traget: traget1, user: req.session.user, traget2: traget2});
+                        }
                       });
                     }
                   });
@@ -851,7 +865,25 @@ io.sockets.on('connection', function(socket){
       reserved: false
     }, function (error, data) {
       if (error) socket.emit('error', error);
-      if (data) socket.emit('success', tragetid);
+      if (data) {
+        user.findOne({_id: proposerid}, function (error, usr) {
+          if (error) console.log("Error "+error);
+          else if (usr) {
+            console.log(usr.email);
+            socket.emit('success', tragetid);
+            var mailOptions = {
+              from: 'med.mahmoudi2001gmail.com',
+              to: usr.email,
+              subject: 'Reservation',
+              text: reservername+' est interéssé par votre trajet de '+depart+' vers '+destination+" le "+date
+            };
+            transporter.sendMail(mailOptions, function (error, result) {
+              if (error) console.log("[ !! ] Error: "+error);
+              else if (result) console.log("Email Sent "+result.info);
+            });
+          }
+        })
+      }
     });
   });
   socket.on('accepter', function (data) {
@@ -865,7 +897,24 @@ io.sockets.on('connection', function(socket){
         }else{
             reserver.findOneAndUpdate({_id: reserveid}, {$set:{reserved: true}},{new: true}, function (err, up) {
             if (err) socket.emit('error', {error: err});
-            if (up) socket.emit('success', reserveid);
+            if (up) {
+              user.findOne({_id: up.reserverid}, function (error, usr) {
+                if (error) console.log("Error finding user");
+                else if (usr) {
+                  socket.emit('success', reserveid);
+                  var mailOptions = {
+                    from: 'med.mahmoudi2001gmail.com',
+                    to: usr.email,
+                    subject: 'Reservation acceptée',
+                    text: 'Votre reservation avec '+newtraget.nom+' le '+newtraget.allezDate+' de '+newtraget.depart+' vers '+newtraget.dest+' est acceptée'
+                  };
+                  transporter.sendMail(mailOptions, function (error, result) {
+                    if (error) console.log("[ !! ] Error: "+error);
+                    else if (result) console.log("Email Sent "+ result.info);
+                  });
+                }
+              });
+            }
           });
         }}
       });
@@ -879,4 +928,34 @@ function addzero(num) {
     numStr = "0"+numStr
   }
   return numStr
+}
+
+// requirements for email
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'med.mahmoudi2001@gmail.com',
+    pass: '23793213'
+  }
+});
+
+// send emails function
+function sendmails(depart, etape, dest, req) {
+  // getting the, req email list from data base
+  var mailist = []
+  user.find({$or:[{bestdepart: depart}, {bestdepart: etape}], bestdest: dest}, function (error, users) {
+    users.forEach(function (user) {
+      mailist.push(user.email);
+    });
+  });
+  var mailOptions = {
+    from: 'med.mahmoudi2001gmail.com',
+    to: mailist,
+    subject: 'Testing',
+    text: req.session.user.nom+' a proposé un tajet de '+depart+" vers "+dest+" passant par "+etape
+  };
+  transporter.sendMail(mailOptions, function (error, result) {
+    if (error) console.log("[ !! ] Error: "+error);
+    if (result) console.log("[ !! ] Mail Sent: "+result.info);
+  });
 }

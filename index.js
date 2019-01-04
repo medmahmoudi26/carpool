@@ -765,12 +765,13 @@ app.post('/register', function(req,res){
 //update profile
 app.post('/update', function (req,res) {
   if (req.body.submit){
-    console.log(req.session.user._id);
+    var hashedpass = bcrypt.hashSync(req.body.password, 10);
     user.findOneAndUpdate({_id: req.session.user._id},{$set:{
       nom        : req.body.nom,
       prenom     : req.body.prenom,
       year       : req.body.year,
       number     : req.body.number,
+      pass       : hashedpass,
       facebook   : req.body.facebook,
       bestdepart : req.body.bestdepart,
       bestdest   : req.body.bestdest

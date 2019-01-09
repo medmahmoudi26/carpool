@@ -5,7 +5,7 @@ const ejs = require('ejs');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-const hogan = require('hogan.js');
+const Hogan = require('hogan.js');
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 
@@ -688,10 +688,10 @@ app.post("/aller&retour2", function (req,res) {
 // test add car
 app.get("/testcar", function (req,res) {
     cars.create({
-      mat:            "0000",
-      model:          "C4",
+      mat:            "1234",
+      model:          "C5",
       places:          4,
-      etablissement:  "Motpellier",
+      etablissement:  "Montpellier",
       rattachement:   "Example"
   },function (error, suc1) {
     if (error) res.render("error", {error: error});
@@ -832,7 +832,7 @@ function removeDuplicates(arr){
 }
 
 //listen
-console.log("listening on port 3000");
+console.log("listening on port 80");
 server.listen(80);
 
 // #########[sockets]#######

@@ -5,9 +5,12 @@ const ejs = require('ejs');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const hogan = require('hogan.js');
+const nodemailer = require('nodemailer');
+const fs = require('fs');
+
 var datesBetween = require("dates-between");
 var DateOnly = require("date-only");
-const nodemailer = require('nodemailer');
 
 // declare app variable server and connect to database
 app = express();
@@ -876,7 +879,8 @@ io.sockets.on('connection', function(socket){
               from: 'med.mahmoudi2001gmail.com',
               to: usr.email,
               subject: 'Reservation',
-              text: reservername+' est interéssé par votre trajet de '+depart+' vers '+destination+" le "+date
+              html: reserv_compiled.render({reservername: reservername, depart: depart, destination: destination, date: date})
+              /*text: reservername+' est interéssé par votre trajet de '+depart+' vers '+destination+" le "+date*/
             };
             transporter.sendMail(mailOptions, function (error, result) {
               if (error) console.log("[ !! ] Error: "+error);
@@ -907,7 +911,8 @@ io.sockets.on('connection', function(socket){
                     from: 'med.mahmoudi2001gmail.com',
                     to: usr.email,
                     subject: 'Reservation acceptée',
-                    text: 'Votre reservation avec '+newtraget.nom+' le '+newtraget.allezDate+' de '+newtraget.depart+' vers '+newtraget.dest+' est acceptée'
+                    html: accept_compiled.render({nom: newtraget.nom, allezDate: newtraget.allezDate, depart: newtraget.depart, dest: newtraget.dest})
+                    /*text: 'Votre reservation avec '+newtraget.nom+' le '+newtraget.allezDate+' de '+newtraget.depart+' vers '+newtraget.dest+' est acceptée'*/
                   };
                   transporter.sendMail(mailOptions, function (error, result) {
                     if (error) console.log("[ !! ] Error: "+error);
@@ -932,6 +937,17 @@ function addzero(num) {
 }
 
 // requirements for email
+// template
+var reserv_template = fs.readFileSync("./email/reserv.ejs");
+var accept_template = fs.readFileSync("./email/accept.ejs");
+var traget_template = fs.readFileSync("./email/traget.ejs")
+
+// compile templates
+var reserv_compiled = Hogan.compile(reserv_template);
+var accept_compiled = Hogan.compile(accept_template);
+var traget_compiled = Hogan.compile(traget_template);
+
+// transporter
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -953,7 +969,8 @@ function sendmails(depart, etape, dest, req) {
     from: 'med.mahmoudi2001gmail.com',
     to: mailist,
     subject: 'Testing',
-    text: req.session.user.nom+' a proposé un tajet de '+depart+" vers "+dest+" passant par "+etape
+    html: traget_compiled.render({nom: req.session.user.nom, depart: depart, dest: dest, etape: etape})
+    /*text: req.session.user.nom+' a proposé un tajet de '+depart+" vers "+dest+" passant par "+etape*/
   };
   transporter.sendMail(mailOptions, function (error, result) {
     if (error) console.log("[ !! ] Error: "+error);

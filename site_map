@@ -1,8 +1,0 @@
-+ website map:
-   [ What is done ]
-	[-] carpooling functions -> reserving cars, finding paths, reservation with someone else [Done]
-	[-] login system -> basic authentification system(no emails)
-	[-] sending email if user reserves with another user, if user accepts resrvation, sending email if path destination and departure data matches intrests of antoher user
-   [ What is left ]
-	[-] email based authentification system( with password restoring option), with email confirmation while singing up ( login and sign up code starts at line 713 -> 791 )
-	[-] admin system( functions to be discussed with the rest of the team )

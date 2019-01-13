@@ -6,7 +6,7 @@ var UserSchema = new Schema ({
   prenom:     {type: String, required: true},
   pass:       {type: String, required: true},
   email:      {type: String, required: true, unique:true},
-  year:       {type: Number, required: true},
+  year:       {type: String, required: true},
   number:     {type: String},
   facebook:   {type: String},
   bestdepart: {type: String}, // best depart

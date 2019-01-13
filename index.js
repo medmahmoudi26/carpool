@@ -445,7 +445,7 @@ app.post("/aller&retour2", function (req,res) {
   var finDate               = new Date(req.session.aller1.finDate)
   console.log(req.body.retourDepartDate);
   if (req.body.retourDepartDate > finDate) {
-    res.render("allerProp1", {user:req.session.user, error:"la date de retour n'est pas valide"})
+    res.render("propBoth1", {user:req.session.user, error:"la date de retour n'est pas valide"})
   } else {
     cardispo.findOne({_id: cardispo_id}, function (error,cardispo_result) {
       if (error) res.render("allerProp1", {user: req.session.user, error: error})
@@ -552,7 +552,7 @@ app.post("/aller&retour2", function (req,res) {
                 var mins      = allezDate.getUTCMinutes()
                 var mined     = addzero(mins)
                 var allezTime = houred+":"+mined
-                var allezDate = new DateOnly(req.session.allezDate).toISOString()
+                var allezDate = new DateOnly(req.session.aller1.allezDate).toISOString()
                 traget.create({
                   userid      : req.session.user._id,
                   nom         : req.session.user.nom,
@@ -755,7 +755,7 @@ app.post('/register', function(req,res){
       bestdest    : req.body.bestdest
 
     }, function(error, user){
-      if (error){ res.render('register', {ps:"cet email est déja utilisé !"});}
+      if (error){ res.render('register', {ps:error});}
       else {
         req.session.user = user;
         res.redirect('/profile');
@@ -938,9 +938,9 @@ function addzero(num) {
 
 // requirements for email
 // template
-var reserv_template = fs.readFileSync("./email/reserv.ejs");
-var accept_template = fs.readFileSync("./email/accept.ejs");
-var traget_template = fs.readFileSync("./email/traget.ejs")
+var reserv_template = fs.readFileSync("./email/reserv.ejs", "utf-8");
+var accept_template = fs.readFileSync("./email/accept.ejs", "utf-8");
+var traget_template = fs.readFileSync("./email/traget.ejs", "utf-8")
 
 // compile templates
 var reserv_compiled = Hogan.compile(reserv_template);

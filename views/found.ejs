@@ -1,244 +1,326 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
 
-<html>
-	<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>voyager plus simplement</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Notre outil est conçu pour optimiser les voyages de nos collaborateurs au sein de la DEX Occitanie" />
-	<meta name="keywords" content="Notre outil est conçu pour optimiser les voyages de nos collaborateurs au sein de la DEX Occitanie" />
-	<meta name="author" content="GetTemplates.co" />
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/.png">
+  <link rel="icon" type="image/png" href="./assets/img/.png">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+  Resultats
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <!-- CSS Files -->
+  <link href="./assets/css/material-kit.css?v=2.1.1" rel="stylesheet" />
+  <!-- CSS Just for demo purpose, don't include it in your project -->
+  <link href="./assets/demo/demo.css" rel="stylesheet" />
+  <link href="./assets/demo/vertical-nav.css" rel="stylesheet" />
+</head>
 
-  	<!-- Facebook and Twitter integration -->
-	<meta property="og:title" content=""/>
-	<meta property="og:image" content=""/>
-	<meta property="og:url" content=""/>
-	<meta property="og:site_name" content=""/>
-	<meta property="og:description" content=""/>
-	<meta name="twitter:title" content="" />
-	<meta name="twitter:image" content="" />
-	<meta name="twitter:url" content="" />
-	<meta name="twitter:card" content="" />
+<body class="profile-page sidebar-collapse"style="background-image: url('./assets/img/r1.jpg');">
 
-	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+  <nav class="navbar      fixed-top  navbar-expand-lg  " color-on-scroll="100" id="sectionsNav">
+    <div class="container">
+      <div class="navbar-translate">
+        <a class="navbar-brand font-weight-bold" href="/index"style="color:#112D4E;font-size:20px;">
+          Carpool. </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon" ></span>
+          <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
 
-	<!-- Animate.css -->
-	<link rel="stylesheet" href="css/animate.css">
-	<!-- Icomoon Icon Fonts-->
-	<link rel="stylesheet" href="css/icomoon.css">
-	<!-- Themify Icons-->
-	<link rel="stylesheet" href="css/themify-icons.css">
-	<!-- Bootstrap  -->
-	<link rel="stylesheet" href="css/bootstrap.css">
+      <% if (typeof user != 'undefined') { %>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ml-auto">
+        <li class="dropdown nav-item">
+          <a href="/" class=" nav-link"style="color:#112D4E;font-size:15px;">
+            home
+          </a>
+        </li>
+        <li class="dropdown nav-item">
+            <button style="color:white;background-color:#3F72AF;"type="button" onclick="location.href='/proposer'" class="btn nav-link">Suggest a trip</button>
 
-	<!-- Magnific Popup -->
-	<link rel="stylesheet" href="css/magnific-popup.css">
+        </li>
+        <li class="dropdown nav-item">
+          <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+           <%= user.prenom %>
+          </a>
+          <div class="dropdown-menu dropdown-with-icons">
+            <a href="/profile" class="dropdown-item">
+              <i class="material-icons">face</i> Profile
+            </a>
+            <a href="/mestragets" class="dropdown-item">
+              <i class="material-icons">directions</i> Trajets
+            </a>
+            <a href="/mesreservations" class="dropdown-item">
+              <i class="material-icons">check</i> reservations
+            </a>
 
-	<!-- Magnific Popup -->
-	<link rel="stylesheet" href="css/bootstrap-datepicker.min.css">
+          </div>
+        </li>
+        <li class="dropdown nav-item">
+          <a href="/logoff" class=" nav-link"style="color:#112D4E;font-size:15px;">
+            log out
+          </a>
+        </li>
 
-	<!-- Owl Carousel  -->
-	<link rel="stylesheet" href="css/owl.carousel.min.css">
-	<link rel="stylesheet" href="css/owl.theme.default.min.css">
+      </ul>
+    </div>
+    <% }else { %>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+          <li class="dropdown nav-item">
+            <a href="/index" class=" nav-link"style="color:#112D4E;font-size:15px;">
+              home
+            </a>
+          </li>
+          <li class="dropdown nav-item">
+              <button style="color:white;background-color:#3F72AF;"type="button" onclick="location.href='/proposer'" class="btn nav-link">Suggest a trip</button>
 
-	<!-- Theme style  -->
-	<link rel="stylesheet" href="css/style.css">
+          </li>
+          <li class="dropdown nav-item">
+            <a href="/login" class=" nav-link"style="color:#112D4E;font-size:15px;">
+               Login
+            </a>
+          </li>
+          <li class="dropdown nav-item">
+            <a href="/register" class=" nav-link"style="color:#112D4E;font-size:15px;">
+               sign up
+            </a>
+          </li>
 
-	<!-- Modernizr JS -->
-	<script src="js/modernizr-2.6.2.min.js"></script>
-	<!-- FOR IE9 below -->
-	<!--[if lt IE 9]>
-	<script src="js/respond.min.js"></script>
-	<![endif]-->
 
-	</head>
-	<body>
+        </ul>
+      </div>
+      <% } %>
 
-	<% if (typeof user != 'undefined') { %>
+    </div>
+  </nav>
+<section style="margin-top:200px;">
 
-	<!-- <div class="page-inner"> -->
-	<nav class="gtco-nav" role="navigation" style="background-color:gray;">
-		<div class="gtco-container">
+  <div class="main "style="margin:50px;">
+    <div class="profile-content">
+      <div class="container">
+        <div class="row">
 
-			<div class="row">
-				<div class="col-sm-4 col-xs-12">
-					<div id="gtco-logo"><a href="/">Voyager plus simplement </a></div>
-				</div>
-				<div class="col-xs-8 text-right menu-1">
-					<ul>
-						<li><a href="/profile"><%= user.prenom %></a></li>
-						<li>
-							<a href="/logoff">deconnection</a>
-						</li>
-						<li style="padding:10px;"><a href="/proposer" class="btn btn-info" role="button"style="padding:10px;">Proposer un trajet</a></li>
-					</ul>
-				</div>
-			</div>
+        <div class="col-sm">
 
-		</div>
-	</nav>
-  <% }else { %>
-    <nav class="gtco-nav" role="navigation" style="background-color:gray;">
-  		<div class="gtco-container">
+     </div>
+     <div class="col-sm">
+           <h2 class="text-center font-weight-normal"style="color:#112D4E;padding-bottom:40px;padding-top:40px;"> Resultats <h2>
+        <% if (allant != ''){%> <% allant.forEach(function(usr) { %>
+       <div class="card" style="width: ;display:inline-block;height:">
+         <div class="card-body">
 
-  			<div class="row">
-  				<div class="col-sm-4 col-xs-12">
-  					<div id="gtco-logo"><a href="/">Voyager plus simplement </a></div>
-  				</div>
-  				<div class="col-xs-8 text-right menu-1">
-  					<ul>
-              <a href="/register">register</a>
-  						<li>
-                <a href="/login">login</a>
-  						</li>
-  						<li style="padding:10px;"><a href="/proposer" class="btn btn-info" role="button"style="padding:10px;">Proposer un trajet</a></li>
-  					</ul>
-  				</div>
-  			</div>
-
-  		</div>
-  	</nav>
-    <% } if (allant != '') { %>
-			<section  role="contentinfo" style="margin-top:240px; margin-left:20px;">
-    <% allant.forEach(function(usr) { %>
-		<div class="gtco-container">
-			<div class="row row-p	b-md">
-
-<a href="/detail/<%= usr.userid %>" target="_blank"><%= usr.nom %> <%= usr.prenom %></a> part de <b> <%= usr.depart%> </b> vers <b> <%= usr.dest %> </b> le <b> <%= usr.allezDate %> </b><br>
-Description:
-<%= usr.description %>
-Véhicule: <b><%= usr.car %></b><br>
-Temps: <b><%= usr.allezTime %></b>
-<% if( typeof user != 'undefined') { %>
-  <!-- if places number not 0 show resrvation button else show that number of places is complete -->
-<% if (usr.places != 0) {%>
-<div id="<%= usr._id %>">
-	<button type="button" name="reserve" onclick="reserve('<%= usr._id %>','<%= usr.dest %>','<%= usr.depart %>','<%= usr.allezDate %>','<%= usr.userid %>','<%= usr.nom %>','<%= user._id %>','<%= user.nom %>');">reserver</button>
-</div>
+            <h3 style="padding:20px;"><a href="/detail/<%= usr.userid %>"><%= usr.nom %> <%= usr.prenom %> part </a> </h3>
+           <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">DE:</strong> <%= usr.depart%> <strong style="margin-right:10px;margin-left:30px;">VERS:</strong><%= usr.dest %> <strong style="margin-right:10px;margin-left:30px;">LE:</strong><%= usr.allezDate %> </h4>
+             <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">Description:</strong><%= usr.description %> <br> <strong style="margin-right:10px;margin-left:30px;">Véhicule: </strong> <%= usr.car %><strong style="margin-right:10px;margin-left:30px;">Temps:</strong><%= usr.allezTime %><h4>
+            <% if( typeof user != 'undefined') { %> <% if (usr.places != 0) {%>
+              <div style="padding-top:;"class="" id="<%= usr._id %>">
+                <button style="margin-top:30px;margin-bottom:20px;background-color:#3F72AF;"type="submit" class="btn" onclick="reserve('<%= usr._id %>','<%= usr.dest %>','<%= usr.depart %>','<%= usr.allezDate %>','<%= usr.userid %>','<%= usr.nom %>','<%= user._id %>','<%= user.nom %>');">Reserver</button>
+            </div>
+     </div>
+     </div>
 <% }else { %>
-  <b>le nombre de places est complet</b>
-  <% } %>
-  <% }else{ %>
-    <b>connecter pour reserver un trajet</b>
-    <% } %>
-<hr>
-<% }); %>
-<% } if (etape != '') { %>
-	<section  role="contentinfo" style="margin-top:240px; margin-left:20px;">
-<% etape.forEach(function(usr) { %>
-		<div class="gtco-container">
-			<div class="row row-p	b-md">
+        <h3 class="text-center font-weight-normal"style="color:#112D4E;padding-bottom:180px;padding-top:100px;">le nombre de places est complet <h3>
+<% } %> <% }else{ %>
+    <h3 class="text-center font-weight-normal"style="color:#112D4E;padding-bottom:180px;padding-top:100px;">connecter pour reserver un trajet <h3><% } %>
+      <% }); %> <% } if (etape != '') { %>
+        <% etape.forEach(function(usr) { %>
+        <div class="card" style="width: ;display:inline-block;height:">
+          <div class="card-body">
 
-<a href="/detail/<%= usr.userid %>" target="_blank"><%= usr.nom %> <%= usr.prenom %></a> part de <%= usr.depart %> vers <%= usr.dest %> le <i><%= usr.allezDate %></i> et passe par <b><%= usr.etape%></b>
-l'heure: <i> <%= usr.allezHeure %> </i><br>
-Description:
-<%= usr.description %>
-Véhicule: <b><%= usr.car %></b><br>
-<!-- buttopn with proposer id and reserver id -->
+             <h3 style="padding:20px;"> <a href="detail/<%= usr.userid %>"><%= usr.nom %> <%= usr.prenom %> part </a> </h3>
+            <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">DE:</strong> <%= usr.depart%> <br> <strong style="margin-right:10px;margin-left:30px;">VERS:</strong><%= usr.dest %> <strong style="margin-right:10px;margin-left:30px;">LE:</strong><%= usr.allezDate %> </h4>
+              <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">Et passe par:</strong><%= usr.etape%><strong style="margin-right:10px;margin-left:30px;"> L'heure::</strong><%= usr.allezHeure %><strong style="margin-right:10px;margin-left:30px;">Description:</strong><%= usr.description %>  <h4>
+                <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">Véhicule:</strong><%= usr.car %> <h4>
 <% if(typeof user != 'undefined') { %>
-<% if (usr.places != 0) {%>
-<div id="<%= usr._id %>">
-<button type="button" name="reserve" onclick="reserve('<%= usr._id %>','<%= usr.dest %>','<%= usr.depart %>','<%= usr.allezDate %>','<%= usr.userid %>','<%= usr.nom %>','<%= user._id %>','<%= user.nom %>');">reserver</button>
-</div>
-</div>
-</div>
+	<% if (usr.places != 0) {%>
+               <div style="padding-top:;"class="" id="<%= usr._id %>">
+                 <button style="margin-top:30px;margin-bottom:20px;background-color:#3F72AF;"type="submit" class="btn" onclick="reserve('<%= usr._id %>','<%= usr.dest %>','<%= usr.depart %>','<%= usr.allezDate %>','<%= usr.userid %>','<%= usr.nom %>','<%= user._id %>','<%= user.nom %>');">Reserver</button>
+             </div>
+      </div>
+      </div>
+      <% }else { %>
+              <h3 class="text-center font-weight-normal"style="color:#112D4E;padding-bottom:180px;padding-top:100px;">le nombre de places est complet <h3>
+      <% } %> <% }else{ %>
+          <h3 class="text-center font-weight-normal"style="color:#112D4E;padding-bottom:180px;padding-top:100px;">connecter pour reserver un trajet <h3><% } %>
+            <% }) } %> <% if (allant == '' && etape == '') { %>
+                <h3 class="text-center font-weight-normal"style="color:#112D4E;padding-bottom:180px;padding-top:100px;">Pas de resultat pour votre recherche<h3><% } %>
+     </div>
+     <div class="col-sm">
+
+     </div>
+
+
+      </div>
+      </div>
+    </div>
+  </div>
 </section>
-<section  role="contentinfo" style="margin-top:240px; margin-left:20px;">
-	<div class="gtco-container">
-		<div class="row row-p	b-md">
+  <footer class="footer footer-white"style="margin-top:15%;">
+    <div class="container">
+      <a class="footer-brand" href="http://www.creative-tim.com">Carpool</a>
+      <ul class="pull-center">
+        <li>
+          <a href="#pablo">
+            home
+          </a>
+        </li>
+        <li>
+          <a href="#pablo">
+            find trip
+          </a>
+        </li>
+        <li>
+          <a href="#pablo">
+            suggest trip
+          </a>
+        </li>
 
-<% }else { %>
-  <h3  class="text-info text-center" >le nombre de places est complet</h3>
-  <% } %>
-  <% }else{ %>
-    <h3  class="text-info text-center" >vous avez besoin de vous connecter pour reserver un traget</h3>
-    <% } %>
-</p>
-<% }) %>
-<hr>
-<% } if (allant == '' && etape == '') { %>
-<h3 class="text-info text-center" style="margin-top:240px">Pas de resultat pour votre recherche</h3>
-<% } %>
-</div>
-</div>
-</div>
-</section>
+        <li>
+          <a href="#pablo">
+            contact us
+          </a>
+        </li>
+      </ul>
+      <ul class="social-buttons float-right">
+        <li>
+          <a href="https://twitter.com/CreativeTim" target="_blank" class="btn btn-just-icon btn-link btn-twitter">
+            <i class="fa fa-twitter"></i>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.facebook.com/CreativeTim" target="_blank" class="btn btn-just-icon btn-link btn-dribbble">
+            <i class="fa fa-dribbble"></i>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.instagram.com/CreativeTimOfficial" target="_blank" class="btn btn-just-icon btn-link btn-google">
+            <i class="fa fa-google-plus"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </footer>
+  <script type="text/javascript">
+  function autocomplete(inp, arr) {
+    /*the autocomplete function takes two arguments,
+    the text field element and an array of possible autocompleted values:*/
+    var currentFocus;
+    /*execute a function when someone writes in the text field:*/
+    inp.addEventListener("input", function(e) {
+        var a, b, i, val = this.value;
+        /*close any already open lists of autocompleted values*/
+        closeAllLists();
+        if (!val) { return false;}
+        currentFocus = -1;
+        /*create a DIV element that will contain the items (values):*/
+        a = document.createElement("DIV");
+        a.setAttribute("id", this.id + "autocomplete-list");
+        a.setAttribute("class", "autocomplete-items");
+        /*append the DIV element as a child of the autocomplete container:*/
+        this.parentNode.appendChild(a);
+        /*for each item in the array...*/
+        for (i = 0; i < arr.length; i++) {
+          /*check if the item starts with the same letters as the text field value:*/
+          if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+            /*create a DIV element for each matching element:*/
+            b = document.createElement("DIV");
+            /*make the matching letters bold:*/
+            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+            b.innerHTML += arr[i].substr(val.length);
+            /*insert a input field that will hold the current array item's value:*/
+            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+            /*execute a function when someone clicks on the item value (DIV element):*/
+                b.addEventListener("click", function(e) {
+                /*insert the value for the autocomplete text field:*/
+                inp.value = this.getElementsByTagName("input")[0].value;
+                /*close the list of autocompleted values,
+                (or any other open lists of autocompleted values:*/
+                closeAllLists();
+            });
+            a.appendChild(b);
+          }
+        }
+    });
+    /*execute a function presses a key on the keyboard:*/
+    inp.addEventListener("keydown", function(e) {
+        var x = document.getElementById(this.id + "autocomplete-list");
+        if (x) x = x.getElementsByTagName("div");
+        if (e.keyCode == 40) {
+          /*If the arrow DOWN key is pressed,
+          increase the currentFocus variable:*/
+          currentFocus++;
+          /*and and make the current item more visible:*/
+          addActive(x);
+        } else if (e.keyCode == 38) { //up
+          /*If the arrow UP key is pressed,
+          decrease the currentFocus variable:*/
+          currentFocus--;
+          /*and and make the current item more visible:*/
+          addActive(x);
+        } else if (e.keyCode == 13) {
+          /*If the ENTER key is pressed, prevent the form from being submitted,*/
+          e.preventDefault();
+          if (currentFocus > -1) {
+            /*and simulate a click on the "active" item:*/
+            if (x) x[currentFocus].click();
+          }
+        }
+    });
+    function addActive(x) {
+      /*a function to classify an item as "active":*/
+      if (!x) return false;
+      /*start by removing the "active" class on all items:*/
+      removeActive(x);
+      if (currentFocus >= x.length) currentFocus = 0;
+      if (currentFocus < 0) currentFocus = (x.length - 1);
+      /*add class "autocomplete-active":*/
+      x[currentFocus].classList.add("autocomplete-active");
+    }
+    function removeActive(x) {
+      /*a function to remove the "active" class from all autocomplete items:*/
+      for (var i = 0; i < x.length; i++) {
+        x[i].classList.remove("autocomplete-active");
+      }
+    }
+    function closeAllLists(elmnt) {
+      /*close all autocomplete lists in the document,
+      except the one passed as an argument:*/
+      var x = document.getElementsByClassName("autocomplete-items");
+      for (var i = 0; i < x.length; i++) {
+        if (elmnt != x[i] && elmnt != inp) {
+        x[i].parentNode.removeChild(x[i]);
+      }
+    }
+  }
+  /*execute a function when someone clicks in the document:*/
+  document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+  });
+  }
+  </script>
+  <script type="text/javascript">
+    var countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre &amp; Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts &amp; Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad &amp; Tobago","Tunisia","Turkey","Turkmenistan","Turks &amp; Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
+  </script>
 
-
-
-
-<footer id="gtco-footer" role="contentinfo">
-	<div class="gtco-container">
-		<div class="row row-p	b-md">
-
-			<div class="col-md-4">
-				<div class="gtco-widget">
-					<h3>à propos du nous</h3>
-					<p>Notre outil est conçu pour optimiser les voyages de nos collaborateurs au sein de la DEX Occitanie</p>
-				</div>
-			</div>
-
-
-
-			<div class="col-md-3 col-md-push-1">
-				<div class="gtco-widget">
-					<h3>Contactez nous</h3>
-					<ul class="gtco-quick-contact">
-						<li><a><i class="icon-phone"></i> 0649875225 </a></li>
-						<li><a><i class="icon-mail2"></i> marouen.kanoun@laposte.fr </a></li>
-					</ul>
-				</div>
-			</div>
-
-		</div>
-
-		<div class="row copyright">
-			<div class="col-md-12">
-				<p class="pull-left">
-					<small class="block">&copy; 2018. All Rights Reserved.</small>
-				</p>
-				<p class="pull-right">
-					<ul class="gtco-social-icons pull-right">
-						<li><a href="https://www.facebook.com/marouen.kanoun"><i class="icon-facebook"></i></a></li>
-						<li><a href="https://www.linkedin.com/in/marouen-kanoun-627a947b/"><i class="icon-linkedin"></i></a></li>
-					</ul>
-				</p>
-			</div>
-		</div>
-
-	</div>
-</footer>
-	<!-- </div> -->
-
-	</div>
-
-	<div class="gototop js-top">
-		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
-	</div>
-
-	<!-- jQuery -->
-	<script src="js/jquery.min.js"></script>
-	<!-- jQuery Easing -->
-	<script src="js/jquery.easing.1.3.js"></script>
-	<!-- Bootstrap -->
-	<script src="js/bootstrap.min.js"></script>
-	<!-- Waypoints -->
-	<script src="js/jquery.waypoints.min.js"></script>
-	<!-- Carousel -->
-	<script src="js/owl.carousel.min.js"></script>
-	<!-- countTo -->
-	<script src="js/jquery.countTo.js"></script>
-
-	<!-- Stellar Parallax -->
-	<script src="js/jquery.stellar.min.js"></script>
-
-	<!-- Magnific Popup -->
-	<script src="js/jquery.magnific-popup.min.js"></script>
-	<script src="js/magnific-popup-options.js"></script>
-
-	<!-- Datepicker -->
-	<script src="js/bootstrap-datepicker.min.js"></script>
+  <script>
+  autocomplete(document.getElementById("departure"), countries);
+  </script>
+  <script>
+  autocomplete(document.getElementById("arrival"), countries);
+  </script>
+  <script>
+  autocomplete(document.getElementById("etape"), countries);
+  </script>
   <script src="/socket.io/socket.io.js"></script>
   <script>
     var socket = io.connect("http://localhost:80");
@@ -254,123 +336,56 @@ Véhicule: <b><%= usr.car %></b><br>
     });
   </script>
 
-	<!-- Main -->
-	<script src="js/main.js"></script>
-<script type="text/javascript">
-var countries = ["Afghanistan","Albania","Algeria","Andorra","Angola","Anguilla","Antigua &amp; Barbuda","Argentina","Armenia","Aruba","Australia","Austria","Azerbaijan","Bahamas","Bahrain","Bangladesh","Barbados","Belarus","Belgium","Belize","Benin","Bermuda","Bhutan","Bolivia","Bosnia &amp; Herzegovina","Botswana","Brazil","British Virgin Islands","Brunei","Bulgaria","Burkina Faso","Burundi","Cambodia","Cameroon","Canada","Cape Verde","Cayman Islands","Central Arfrican Republic","Chad","Chile","China","Colombia","Congo","Cook Islands","Costa Rica","Cote D Ivoire","Croatia","Cuba","Curacao","Cyprus","Czech Republic","Denmark","Djibouti","Dominica","Dominican Republic","Ecuador","Egypt","El Salvador","Equatorial Guinea","Eritrea","Estonia","Ethiopia","Falkland Islands","Faroe Islands","Fiji","Finland","France","French Polynesia","French West Indies","Gabon","Gambia","Georgia","Germany","Ghana","Gibraltar","Greece","Greenland","Grenada","Guam","Guatemala","Guernsey","Guinea","Guinea Bissau","Guyana","Haiti","Honduras","Hong Kong","Hungary","Iceland","India","Indonesia","Iran","Iraq","Ireland","Isle of Man","Israel","Italy","Jamaica","Japan","Jersey","Jordan","Kazakhstan","Kenya","Kiribati","Kosovo","Kuwait","Kyrgyzstan","Laos","Latvia","Lebanon","Lesotho","Liberia","Libya","Liechtenstein","Lithuania","Luxembourg","Macau","Macedonia","Madagascar","Malawi","Malaysia","Maldives","Mali","Malta","Marshall Islands","Mauritania","Mauritius","Mexico","Micronesia","Moldova","Monaco","Mongolia","Montenegro","Montserrat","Morocco","Mozambique","Myanmar","Namibia","Nauro","Nepal","Netherlands","Netherlands Antilles","New Caledonia","New Zealand","Nicaragua","Niger","Nigeria","North Korea","Norway","Oman","Pakistan","Palau","Palestine","Panama","Papua New Guinea","Paraguay","Peru","Philippines","Poland","Portugal","Puerto Rico","Qatar","Reunion","Romania","Russia","Rwanda","Saint Pierre &amp; Miquelon","Samoa","San Marino","Sao Tome and Principe","Saudi Arabia","Senegal","Serbia","Seychelles","Sierra Leone","Singapore","Slovakia","Slovenia","Solomon Islands","Somalia","South Africa","South Korea","South Sudan","Spain","Sri Lanka","St Kitts &amp; Nevis","St Lucia","St Vincent","Sudan","Suriname","Swaziland","Sweden","Switzerland","Syria","Taiwan","Tajikistan","Tanzania","Thailand","Timor L'Este","Togo","Tonga","Trinidad &amp; Tobago","Tunisia","Turkey","Turkmenistan","Turks &amp; Caicos","Tuvalu","Uganda","Ukraine","United Arab Emirates","United Kingdom","United States of America","Uruguay","Uzbekistan","Vanuatu","Vatican City","Venezuela","Vietnam","Virgin Islands (US)","Yemen","Zambia","Zimbabwe"];
-</script>
-<script>
-function autocomplete(inp, arr) {
-  /*the autocomplete function takes two arguments,
-  the text field element and an array of possible autocompleted values:*/
-  var currentFocus;
-  /*execute a function when someone writes in the text field:*/
-  inp.addEventListener("input", function(e) {
-      var a, b, i, val = this.value;
-      /*close any already open lists of autocompleted values*/
-      closeAllLists();
-      if (!val) { return false;}
-      currentFocus = -1;
-      /*create a DIV element that will contain the items (values):*/
-      a = document.createElement("DIV");
-      a.setAttribute("id", this.id + "autocomplete-list");
-      a.setAttribute("class", "autocomplete-items");
-      /*append the DIV element as a child of the autocomplete container:*/
-      this.parentNode.appendChild(a);
-      /*for each item in the array...*/
-      for (i = 0; i < arr.length; i++) {
-        /*check if the item starts with the same letters as the text field value:*/
-        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-          /*create a DIV element for each matching element:*/
-          b = document.createElement("DIV");
-          /*make the matching letters bold:*/
-          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-          b.innerHTML += arr[i].substr(val.length);
-          /*insert a input field that will hold the current array item's value:*/
-          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-          /*execute a function when someone clicks on the item value (DIV element):*/
-              b.addEventListener("click", function(e) {
-              /*insert the value for the autocomplete text field:*/
-              inp.value = this.getElementsByTagName("input")[0].value;
-              /*close the list of autocompleted values,
-              (or any other open lists of autocompleted values:*/
-              closeAllLists();
-          });
-          a.appendChild(b);
-        }
-      }
-  });
-  /*execute a function presses a key on the keyboard:*/
-  inp.addEventListener("keydown", function(e) {
-      var x = document.getElementById(this.id + "autocomplete-list");
-      if (x) x = x.getElementsByTagName("div");
-      if (e.keyCode == 40) {
-        /*If the arrow DOWN key is pressed,
-        increase the currentFocus variable:*/
-        currentFocus++;
-        /*and and make the current item more visible:*/
-        addActive(x);
-      } else if (e.keyCode == 38) { //up
-        /*If the arrow UP key is pressed,
-        decrease the currentFocus variable:*/
-        currentFocus--;
-        /*and and make the current item more visible:*/
-        addActive(x);
-      } else if (e.keyCode == 13) {
-        /*If the ENTER key is pressed, prevent the form from being submitted,*/
-        e.preventDefault();
-        if (currentFocus > -1) {
-          /*and simulate a click on the "active" item:*/
-          if (x) x[currentFocus].click();
-        }
-      }
-  });
-  function addActive(x) {
-    /*a function to classify an item as "active":*/
-    if (!x) return false;
-    /*start by removing the "active" class on all items:*/
-    removeActive(x);
-    if (currentFocus >= x.length) currentFocus = 0;
-    if (currentFocus < 0) currentFocus = (x.length - 1);
-    /*add class "autocomplete-active":*/
-    x[currentFocus].classList.add("autocomplete-active");
-  }
-  function removeActive(x) {
-    /*a function to remove the "active" class from all autocomplete items:*/
-    for (var i = 0; i < x.length; i++) {
-      x[i].classList.remove("autocomplete-active");
-    }
-  }
-  function closeAllLists(elmnt) {
-    /*close all autocomplete lists in the document,
-    except the one passed as an argument:*/
-    var x = document.getElementsByClassName("autocomplete-items");
-    for (var i = 0; i < x.length; i++) {
-      if (elmnt != x[i] && elmnt != inp) {
-      x[i].parentNode.removeChild(x[i]);
-    }
-  }
-}
-/*execute a function when someone clicks in the document:*/
-document.addEventListener("click", function (e) {
-    closeAllLists(e.target);
-});
-}
-</script>
-<script src="https://cdn.jsdelivr.net/npm/places.js@1.9.0"></script>
-<script>
-  var placesAutocomplete = places({
-    container: document.querySelector('#address-dep')
-  });
-</script>
-<script>
-  var placesAutocomplete = places({
-    container: document.querySelector('#address-des')
-  });
-</script>
-<script>
-autocomplete(document.getElementById("myInput"), countries);
-autocomplete(document.getElementById("myInput2"), countries);
-</script>
-	</body>
+  <script type="text/javascript">
+           $(function () {
+               $('#datetimepicker3').datetimepicker3({
+                   format: 'LT'
+               });
+           });
+       </script>
+       <script type="text/javascript">
+                $(function () {
+                    $('#datetimepicker3').datetimepicker2({
+                        format: 'LT'
+                    });
+                });
+            </script>
+  <!--   Core JS Files   -->
+  <script src="./assets/js/core/jquery.min.js" type="text/javascript"></script>
+  <script src="./assets/js/core/popper.min.js" type="text/javascript"></script>
+  <script src="./assets/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
+  <script src="./assets/js/plugins/moment.min.js"></script>
+  <!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
+  <script src="./assets/js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
+  <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+  <script src="./assets/js/plugins/nouislider.min.js" type="text/javascript"></script>
+  <!--  Google Maps Plugin    -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+  <!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
+  <script src="./assets/js/plugins/bootstrap-tagsinput.js"></script>
+  <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+  <script src="./assets/js/plugins/bootstrap-selectpicker.js" type="text/javascript"></script>
+  <!--	Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+  <script src="./assets/js/plugins/jasny-bootstrap.min.js" type="text/javascript"></script>
+  <!--	Plugin for Small Gallery in Product Page -->
+  <script src="./assets/js/plugins/jquery.flexisel.js" type="text/javascript"></script>
+  <!-- Plugins for presentation and navigation  -->
+  <script src="./assets/demo/modernizr.js" type="text/javascript"></script>
+  <script src="./assets/demo/vertical-nav.js" type="text/javascript"></script>
+  <!-- Place this tag in your head or just before your close body tag. -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Js With initialisations For Demo Purpose, Don't Include it in Your Project -->
+  <script src="./assets/demo/demo.js" type="text/javascript"></script>
+  <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
+  <script src="./assets/js/material-kit.js?v=2.1.1" type="text/javascript"></script>
+  <script>
+    $(document).ready(function() {
+      //init DateTimePickers
+      materialKit.initFormExtendedDatetimepickers();
+
+      // Sliders Init
+      materialKit.initSliders();
+    });
+  </script>
+</body>
 </html>

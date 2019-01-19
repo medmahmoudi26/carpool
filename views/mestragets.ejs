@@ -89,11 +89,13 @@
      </div>
      <div class="col-sm">
            <h2 class="text-center font-weight-normal"style="color:#112D4E;padding-bottom:40px;padding-top:40px;"> Trajets <h2>
-        <% if (propo != ''){%> <% propo.forEach(function(propo) { %>
+        <% if (propo != ''){%>
+          
+          <% propo.forEach(function(propo) { %>
        <div class="card" style="width: ;display:inline-block;height:">
          <div class="card-body">
 
-            <h3 style="padding:20px;">vous avez proposé un traget</h3>
+            <h3 style="padding:20px;">vous avez proposé un trajet</h3>
            <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">De:</strong> <%= propo.depart %><strong style="margin-right:10px;margin-left:30px;">Vers:</strong><%= propo.dest %></h4>
              <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">Le:</strong> <%= propo.allezDate %><strong style="margin-right:10px;margin-left:30px;">Heure:</strong><%= propo.allezTime %></h4>
              <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">Etape:</strong><%= propo.etape %>%><strong style="margin-right:10px;margin-left:30px;">Véhicule:</strong> <%= propo.car %></h4>

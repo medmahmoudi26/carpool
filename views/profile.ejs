@@ -244,6 +244,7 @@
      <div class="col-sm">
            <h2 class="text-center font-weight-normal"style="color:#112D4E;padding-bottom:40px;padding-top:80px;"> Invitations </h2>
              <% if(typeof reservations != 'undefined' && reservations != '') { %>
+               <% reservations.reverse() %>
 							 <% reservations.forEach(function(res) { %>
        <div class="card" style="width: ;display:inline-block;height:">
          <div class="card-body">
@@ -256,7 +257,7 @@
 
 <% if (res.reserved == false) { %>
              <div style="padding-top:;"class="" id="<%= res._id %>">
-               <button style="margin-top:30px;margin-bottom:20px;background-color:#3F72AF;"type="submit" class="btn" accepter('<%= res._id %>','<%= res.tragetid %>')>Accepter l'invitation</button>
+               <button style="margin-top:30px;margin-bottom:20px;background-color:#3F72AF;"type="submit" class="btn" onclick="accepter('<%= res._id %>','<%= res.tragetid %>')">Accepter l'invitation</button>
            </div>
 
 

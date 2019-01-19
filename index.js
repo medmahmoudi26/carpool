@@ -839,6 +839,17 @@ function removeDuplicates(arr){
 console.log("listening on port 80");
 server.listen(80);
 
+// requirements for email
+// template
+var reserv_template = fs.readFileSync("./email/reserv.ejs", "utf-8");
+var accept_template = fs.readFileSync("./email/accept.ejs", "utf-8");
+var traget_template = fs.readFileSync("./email/traget.ejs", "utf-8")
+
+// compile templates
+var reserv_compiled = ejs.compile(reserv_template);
+var accept_compiled = ejs.compile(accept_template);
+var traget_compiled = ejs.compile(traget_template);
+
 // #########[sockets]#######
 var io = require('socket.io')(server);
 io.sockets.on('connection', function(socket){
@@ -886,7 +897,7 @@ io.sockets.on('connection', function(socket){
                   from: 'med.mahmoudi2001gmail.com',
                   to: usr.email,
                   subject: 'Reservation',
-                  html: reserv_compiled.render({usr: usr, trajet: tajet})
+                  html: ejs.render(reserv_template,{usr: usr, trajet: trajet})
                   /*text: reservername+' est interéssé par votre trajet de '+depart+' vers '+destination+" le "+date*/
                 };
                 transporter.sendMail(mailOptions, function (error, result) {
@@ -920,7 +931,7 @@ io.sockets.on('connection', function(socket){
                     from: 'med.mahmoudi2001gmail.com',
                     to: usr.email,
                     subject: 'Reservation acceptée',
-                    html: accept_compiled.render({trajet: newtraget, usr:usr})
+                    html: ejs.render(accept_template,{trajet: newtraget, usr:usr})
                     /*text: 'Votre reservation avec '+newtraget.nom+' le '+newtraget.allezDate+' de '+newtraget.depart+' vers '+newtraget.dest+' est acceptée'*/
                   };
                   transporter.sendMail(mailOptions, function (error, result) {
@@ -945,16 +956,6 @@ function addzero(num) {
   return numStr
 }
 
-// requirements for email
-// template
-var reserv_template = fs.readFileSync("./email/reserv.ejs", "utf-8");
-var accept_template = fs.readFileSync("./email/accept.ejs", "utf-8");
-var traget_template = fs.readFileSync("./email/traget.ejs", "utf-8")
-
-// compile templates
-var reserv_compiled = Hogan.compile(reserv_template);
-var accept_compiled = Hogan.compile(accept_template);
-var traget_compiled = Hogan.compile(traget_template);
 
 // transporter
 var transporter = nodemailer.createTransport({
@@ -978,7 +979,7 @@ function sendmails(depart, etape, dest, req, date, time) {
     from: 'med.mahmoudi2001gmail.com',
     to: mailist,
     subject: 'Nouveau trajet de '+depart+" vers "+dest,
-    html: traget_compiled.render({user: req.session.user, depart: depart, dest: dest, etape: etape, date: date, time: time})
+    html: ejs.render(traget_template,{user: req.session.user, depart: depart, dest: dest, etape: etape, date: date, time: time})
     /*text: req.session.user.nom+' a proposé un tajet de '+depart+" vers "+dest+" passant par "+etape*/
   };
   transporter.sendMail(mailOptions, function (error, result) {

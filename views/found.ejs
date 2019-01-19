@@ -67,7 +67,7 @@
         </li>
         <li class="dropdown nav-item">
           <a href="/logoff" class=" nav-link"style="color:#112D4E;font-size:15px;">
-            log out
+            logoff
           </a>
         </li>
 
@@ -119,9 +119,14 @@
        <div class="card" style="width: ;display:inline-block;height:">
          <div class="card-body">
 
-            <h3 style="padding:20px;"><a href="/detail/<%= usr.userid %>"><%= usr.nom %> <%= usr.prenom %> part </a> </h3>
-           <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">DE:</strong> <%= usr.depart%> <strong style="margin-right:10px;margin-left:30px;">VERS:</strong><%= usr.dest %> <strong style="margin-right:10px;margin-left:30px;">LE:</strong><%= usr.allezDate %> </h4>
-             <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">Description:</strong><%= usr.description %> <br> <strong style="margin-right:10px;margin-left:30px;">Véhicule: </strong> <%= usr.car %><strong style="margin-right:10px;margin-left:30px;">Temps:</strong><%= usr.allezTime %><h4>
+            <h3 style="padding:20px;"><a style="color:#3f72af" href="/detail/<%= usr.userid %> "><%= usr.nom %> <%= usr.prenom %> part </a> </h3>
+           <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">De:</strong> <%= usr.depart%> </h4>
+           <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">Vers:</strong><%= usr.dest %></h4>
+           <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">Le:</strong><%= usr.allezDate %></h4>
+           <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">Description:</strong><%= usr.description %> </h4>
+           <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">Véhicule:</strong><%= usr.car %> </h4>
+           <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">Temps:</strong><%= usr.allezTime %></h4>
+
             <% if( typeof user != 'undefined') { %> <% if (usr.places != 0) {%>
               <div style="padding-top:;"class="" id="<%= usr._id %>">
                 <button style="margin-top:30px;margin-bottom:20px;background-color:#3F72AF;"type="submit" class="btn" onclick="reserve('<%= usr._id %>','<%= usr.dest %>','<%= usr.depart %>','<%= usr.allezDate %>','<%= usr.userid %>','<%= usr.nom %>','<%= user._id %>','<%= user.nom %>');">Reserver</button>
@@ -137,10 +142,16 @@
         <div class="card" style="width: ;display:inline-block;height:">
           <div class="card-body">
 
-             <h3 style="padding:20px;"> <a href="detail/<%= usr.userid %>"><%= usr.nom %> <%= usr.prenom %> part </a> </h3>
-            <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">DE:</strong> <%= usr.depart%> <br> <strong style="margin-right:10px;margin-left:30px;">VERS:</strong><%= usr.dest %> <strong style="margin-right:10px;margin-left:30px;">LE:</strong><%= usr.allezDate %> </h4>
-              <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">Et passe par:</strong><%= usr.etape%><strong style="margin-right:10px;margin-left:30px;"> L'heure::</strong><%= usr.allezHeure %><strong style="margin-right:10px;margin-left:30px;">Description:</strong><%= usr.description %>  <h4>
-                <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">Véhicule:</strong><%= usr.car %> <h4>
+             <h3 style="padding:20px;"> <a style="color:#3f72af" href="detail/<%= usr.userid %>"><%= usr.nom %> <%= usr.prenom %> part </a> </h3>
+             <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">De:</strong> <%= usr.depart%> </h4>
+             <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">Vers:</strong><%= usr.dest %></h4>
+             <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">Le:</strong><%= usr.allezDate %></h4>
+             <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">Et passe par:</strong><%= usr.etape%></h4>
+             <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">L'heure:</strong><%= usr.allezHeure %></h4>
+             <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">Description:</strong><%= usr.description %> </h4>
+             <h4 style="margin-left:20px;margin-right:20px;margin-top:20px;margin-bottom:50px;"><strong style="margin-right:10px;">Véhicule:</strong><%= usr.car %> </h4>
+
+
 <% if(typeof user != 'undefined') { %>
 	<% if (usr.places != 0) {%>
                <div style="padding-top:;"class="" id="<%= usr._id %>">

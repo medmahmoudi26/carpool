@@ -23,58 +23,60 @@
 
 <body class="index-page sidebar-collapse" style="">
   <section style="padding-bottom:19%;background-image: url('./assets/img/r1.jpg');background-color:#F9F7F7;background-repeat:no-repeat; background-size: cover;">
-  <nav class="navbar bg-white navbar-expand-lg  " color-on-scroll="100" id="sectionsNav">
-    <div class="container">
-      <div class="navbar-translate">
-        <a class="navbar-brand font-weight-bold" href="https://demos.creative-tim.com/material-kit-pro/index.html"style="color:#112D4E;font-size:20px;">
-          Carpool. </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="navbar-toggler-icon" ></span>
-          <span class="navbar-toggler-icon"></span>
-          <span class="navbar-toggler-icon"></span>
-        </button>
+    <nav class="navbar      fixed-top  navbar-expand-lg  " color-on-scroll="100" id="sectionsNav">
+      <div class="container">
+        <div class="navbar-translate">
+          <a class="navbar-brand font-weight-bold" href="/"style="color:#112D4E;font-size:20px;">
+            Easy travel </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="navbar-toggler-icon" ></span>
+            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav ml-auto">
+
+
+            <li class="dropdown nav-item">
+              <a href="/" class=" nav-link"style="color:#112D4E;font-size:15px;">
+                Accueil
+              </a>
+            </li>
+            <li class="dropdown nav-item">
+                <button style="color:white;background-color:#3F72AF;"type="button" onclick="location.href='/proposer'" class="btn nav-link">Proposer un trajet</button>
+
+            </li>
+            <li class="dropdown nav-item">
+              <a href="/login" class="dropdown-toggle nav-link" data-toggle="dropdown">
+               <%= user.prenom %>
+              </a>
+              <div class="dropdown-menu dropdown-with-icons">
+                <a href="/login" class="dropdown-item">
+                  <i class="material-icons">face</i> Profile
+                </a>
+                <a href="/mestrajets" class="dropdown-item">
+                  <i class="material-icons">directions</i> Trajets
+                </a>
+                <a href="/mesreservations" class="dropdown-item">
+                  <i class="material-icons">check</i> Reservations
+                </a>
+
+              </div>
+            </li>
+            <li class="dropdown nav-item">
+              <a href="/logoff" class=" nav-link"style="color:#112D4E;font-size:15px;">
+                Déconnection
+              </a>
+            </li>
+
+          </ul>
+        </div>
+
       </div>
-      <div class="collapse navbar-collapse">
-        <ul class="navbar-nav ml-auto">
-
-
-          <li class="dropdown nav-item">
-            <a href="/" class=" nav-link"style="color:#112D4E;font-size:15px;">
-              home
-            </a>
-          </li>
-          <li class="dropdown nav-item">
-              <button style="color:white;background-color:#3F72AF;"type="button" onclick="location.href='/proposer'" class="btn nav-link">Suggest a trip</button>
-
-          </li>
-          <li class="dropdown nav-item">
-            <a href="/login" class="dropdown-toggle nav-link" data-toggle="dropdown">
-             <%= user.prenom %>
-            </a>
-            <div class="dropdown-menu dropdown-with-icons">
-              <a href="/login" class="dropdown-item">
-                <i class="material-icons">face</i> Profile
-              </a>
-              <a href="/mestragets" class="dropdown-item">
-                <i class="material-icons">directions</i> Trajets
-              </a>
-              <a href="/mesreservations" class="dropdown-item">
-                <i class="material-icons">check</i> reservations
-              </a>
-
-            </div>
-          </li>
-          <li class="dropdown nav-item">
-            <a href="/logoff" class=" nav-link"style="color:#112D4E;font-size:15px;">
-              logoff
-            </a>
-          </li>
-
-        </ul>
-      </div>
-    </div>
-  </nav>
+    </nav>
 
   <section class="choix" style="">
     <div class="container">
@@ -104,7 +106,7 @@
 
     <!-- Subtitle -->
     <!-- Text -->
-    <p class="card-text">Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium doloremque laudantium, totam rem aperiam. </p>
+    <p class="card-text">Vous faites un aller retour ? , economiser du temps et proposer vos trajets rapidement </p>
 
     <!-- Linkedin -->
     <button style="  border-radius:5px;background-color: #3F72AF;"class="btn "type="button" onclick="location.href='/aller&retour'"><i class="fa fa-chevron-circle-right fa-2x" aria-hidden="true"></i> </button>
@@ -128,12 +130,12 @@
         <div class="card-body card-body-cascade text-center">
 
         <!-- Title -->
-        <h3 class="text-center font-weight-normal"style="color:#112D4E;"> Aller <h3>
+        <h3 class="text-center font-weight-normal"style="color:#112D4E;"> Aller Simple <h3>
 
         <!-- Subtitle -->
 
         <!-- Text -->
-        <p class="card-text">Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium doloremque laudantium, totam rem aperiam. </p>
+        <p class="card-text">Vous faites un trajet simple , proposez votre votre voyage a vos collègues en quelques cliques </p>
         <button style="  border-radius:5px;background-color: #3F72AF;"class="btn " type="button" onclick="location.href='/aller'"><i class="fa fa-chevron-circle-right fa-2x" aria-hidden="true"></i> </button>
 
 
@@ -155,43 +157,43 @@
 </section>
 <footer class="footer footer-white"style="">
   <div class="container">
-    <a class="footer-brand" href="http://www.creative-tim.com">Carpool</a>
+    <a class="footer-brand" href="/">Easy Travel</a>
     <ul class="pull-center">
       <li>
-        <a href="#pablo">
-          home
+        <a href="/">
+          Accueil
         </a>
       </li>
       <li>
-        <a href="#pablo">
-          find trip
+        <a href="/">
+          Chercher un trajet
         </a>
       </li>
       <li>
-        <a href="#pablo">
-          suggest trip
+        <a href="/proposer">
+          Proposer un trajet
         </a>
       </li>
 
       <li>
-        <a href="#pablo">
-          contact us
+        <a href="https://www.linkedin.com/in/marouen-kanoun-627a947b/">
+          Contacter nous
         </a>
       </li>
     </ul>
     <ul class="social-buttons float-right">
       <li>
-        <a href="https://twitter.com/CreativeTim" target="_blank" class="btn btn-just-icon btn-link btn-twitter">
+        <a href="#" target="_blank" class="btn btn-just-icon btn-link btn-twitter">
           <i class="fa fa-twitter"></i>
         </a>
       </li>
       <li>
-        <a href="https://www.facebook.com/CreativeTim" target="_blank" class="btn btn-just-icon btn-link btn-dribbble">
+        <a href="#" target="_blank" class="btn btn-just-icon btn-link btn-dribbble">
           <i class="fa fa-dribbble"></i>
         </a>
       </li>
       <li>
-        <a href="https://www.instagram.com/CreativeTimOfficial" target="_blank" class="btn btn-just-icon btn-link btn-google">
+        <a href="#" target="_blank" class="btn btn-just-icon btn-link btn-google">
           <i class="fa fa-google-plus"></i>
         </a>
       </li>

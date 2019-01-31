@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var ReserverSchema = new Schema ({
   proposerid   : {type: String, required: true},
   reserverid   : {type: String, required: true},
-  tragetid     : {type: String, required: true},
+  trajetid     : {type: String, required: true},
   destination  : {type: String, required: true},
   depart       : {type: String, required: true},
   proposername : {type: String, required: true},

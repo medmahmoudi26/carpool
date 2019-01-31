@@ -5,8 +5,7 @@ var CarSchema = new Schema ({
   model:          {type: String},
   places:         {type: Number},
   remarque:       {type: String},
-  etablissement:  {type: String},
-  rattachement:   {type: String}
+  etablissement:  {type: String}
 });
 
 module.exports = mongoose.model("car", CarSchema);

@@ -21,7 +21,7 @@ var db = mongoose.connect('mongodb://localhost:27017/coVoiture'); // mongodb://u
 app.use(session({secret:'cocar'}));
 
 //requrie models
-const traget = require('./models/traget.js');
+const trajet = require('./models/trajet.js');
 const user = require('./models/user.js');
 const reserver = require('./models/reserver.js');
 const cardispo = require('./models/cardispo.js');
@@ -55,6 +55,7 @@ app.get('/index', function(req,res){
   res.render('index');
 }
 });
+
 //propser
 app.get('/proposer', function(req,res){
   rmredire(req,res);
@@ -137,20 +138,20 @@ app.get('/logoff', function(req,res){
   res.redirect('/')
 });
 
-//mes reservations(tragets that I proposed)
-app.get('/mestragets', function (req,res) {
+//mes reservations(trajets that I proposed)
+app.get('/mestrajets', function (req,res) {
   rmredire(req,res);
   if (req.session.user) {
-    traget.find({userid: req.session.user._id}, function (error, proposition) {
+    trajet.find({userid: req.session.user._id}, function (error, proposition) {
       if (error) res.render('error', {error: error});
-      if (proposition) res.render('mestragets', {propo: proposition, user:req.session.user});
+      if (proposition) res.render('mestrajets', {propo: proposition, user:req.session.user});
     });
   }else {
-    req.session.redire = '/mestragets';
+    req.session.redire = '/mestrajets';
     res.redirect('/notlogged');
   }
 });
-//mes tragets(tragets that I )
+//mes trajets(trajets that I )
 app.get('/mesreservations', function (req,res) {
   rmredire(req,res);
   if (req.session.user){
@@ -166,20 +167,20 @@ app.get('/mesreservations', function (req,res) {
 
 // POST REQUESTS
 
-//chercher un traget
+//chercher un trajet
 app.post('/chercher', function(req,res){
   if(req.body.depart && req.body.dest && req.body.date){
     req.body.date = new Date(req.body.date+" UTC")
     // find allant
-    traget.find({
+    trajet.find({
       depart      : req.body.depart,
       dest        : req.body.dest,
       allezDate   : new DateOnly(req.body.date).toISOString(),
-      date_object : {$gte: req.body.date} // date is stored in string format in the tragets schema
+      date_object : {$gte: req.body.date} // date is stored in string format in the trajets schema
     }, function(error, allant){
       if (error) res.render('error', {error: error});
       // find en etap
-      traget.find({
+      trajet.find({
         etape:      req.body.depart,
         dest        : req.body.dest,
         allezDate   : new DateOnly(req.body.date).toISOString(),
@@ -236,7 +237,7 @@ app.post("/aller1", function (req,res) {
 
 // step 2 of reserving a path
 app.post("/aller2", function (req,res) {
-  if (!req.session.aller1) res.redirect("/notlogged");
+  if (!req.session.aller1 || !req.session.user) res.redirect("/notlogged");
   var cardispo_id   = req.body.car;
   var desc  = req.body.desc;
   cardispo.findOne({_id: cardispo_id}, function (error,cardispo_result) {
@@ -270,7 +271,7 @@ app.post("/aller2", function (req,res) {
           var mined     = addzero(mins)
           var allezTime = houred+":"+mined // retreive the time in a string format
           var allezDate = new DateOnly(allezDate).toISOString() // date in string format
-            traget.create({
+            trajet.create({
               userid      : req.session.user._id,
               nom         : req.session.user.nom,
               prenom      : req.session.user.prenom,
@@ -283,11 +284,11 @@ app.post("/aller2", function (req,res) {
               places      : car.places,
               car         : car.car,
               description : desc
-            }, function (error , traget) {
+            }, function (error , trajet) {
               if (error) res.render("allerProp1", {user:req.session.user, error: error});
-              if (traget) {
-                res.render("success", {traget: traget, user: req.session.user})
-                sendmails(traget.depart, traget.etape, traget.dest, req, allezDate, allezTime);
+              if (trajet) {
+                res.render("success", {trajet: trajet, user: req.session.user})
+                sendmails(trajet.depart, trajet.etape, trajet.dest, req, allezDate, allezTime);
               }
             });
           }
@@ -320,7 +321,7 @@ app.post("/aller2", function (req,res) {
                 var mined     = addzero(mins)
                 var allezTime = houred+":"+mined
                 var allezDate = new DateOnly(allezDate).toISOString()
-                traget.create({
+                trajet.create({
                   userid      : req.session.user._id,
                   nom         : req.session.user.nom,
                   prenom      : req.session.user.prenom,
@@ -333,11 +334,11 @@ app.post("/aller2", function (req,res) {
                   places      : car.places,
                   car         : car.car,
                   description : desc
-                }, function (error , traget) {
+                }, function (error , trajet) {
                   if (error) res.render("aller1", {user:req.session.user, error: error});
-                  if (traget) {
-                    res.render("success", {traget: traget, user: req.session.user});
-                    sendmails(traget.depart, traget.etape, traget.dest, req, allezDate, allezTime);
+                  if (trajet) {
+                    res.render("success", {trajet: trajet, user: req.session.user});
+                    sendmails(trajet.depart, trajet.etape, trajet.dest, req, allezDate, allezTime);
                   }
                 });
               }
@@ -371,7 +372,7 @@ app.post("/aller2", function (req,res) {
                 var mined     = addzero(mins)
                 var allezTime = houred+":"+mined
                 var allezDate = new DateOnly(allezDate).toISOString()
-                traget.create({
+                trajet.create({
                   userid      : req.session.user._id,
                   nom         : req.session.user.nom,
                   prenom      : req.session.user.prenom,
@@ -384,11 +385,11 @@ app.post("/aller2", function (req,res) {
                   places      : car.places,
                   car         : car.car,
                   description : desc
-                }, function (error , traget) {
+                }, function (error , trajet) {
                   if (error) res.render("aller1", {user:req.session.user, error: error});
-                  if (traget) {
-                    res.render("success", {traget: traget, user: req.session.user})
-                    sendmails(traget.depart, traget.etape, traget.dest, req, allezDate, allezTime);
+                  if (trajet) {
+                    res.render("success", {trajet: trajet, user: req.session.user})
+                    sendmails(trajet.depart, trajet.etape, trajet.dest, req, allezDate, allezTime);
                   }
                 });
               }
@@ -442,7 +443,7 @@ app.post("/aller&retour1", function (req,res) {
 
 // step 2 of reserving a path aller&retour
 app.post("/aller&retour2", function (req,res) {
-  if (!req.session.aller1) res.redirect("/notlogged");
+  if (!req.session.aller1 || !req.session.user) res.redirect("/notlogged");
   var cardispo_id           = req.body.car;
   var desc                  = req.body.desc;
   req.body.retourDepartDate = new Date(req.body.retourDepartDate+" UTC"); // date in utc time
@@ -481,7 +482,7 @@ app.post("/aller&retour2", function (req,res) {
             var mined     = addzero(mins)
             var allezTime = houred+":"+mined // retreive the time in a string format
             var allezDate = new DateOnly(allezDate).toISOString() // date in string format
-              traget.create({
+              trajet.create({
                 userid      : req.session.user._id,
                 nom         : req.session.user.nom,
                 prenom      : req.session.user.prenom,
@@ -494,10 +495,10 @@ app.post("/aller&retour2", function (req,res) {
                 places      : car.places,
                 car         : car.car,
                 description : desc
-              }, function (error , traget1) {
+              }, function (error , trajet1) {
                 if (error) res.render("allerProp1", {user:req.session.user, error: error});
-                if (traget1) {
-                  sendmails(traget1.depart, traget1.etape, traget1.dest, req, allezDate, allezTime);
+                if (trajet1) {
+                  sendmails(trajet1.depart, trajet1.etape, trajet1.dest, req, allezDate, allezTime);
                   var retourDepartDate = new Date(req.body.retourDepartDate)
                   var hour             = retourDepartDate.getUTCHours()
                   var houred           = addzero(hour)
@@ -505,7 +506,7 @@ app.post("/aller&retour2", function (req,res) {
                   var mined            = addzero(mins)
                   var allezTime        = houred+":"+mined // retreive the time in a string format
                   var retourDepartDate = new DateOnly(retourDepartDate).toISOString() // date in string format
-                  traget.create({
+                  trajet.create({
                     userid      : req.session.user._id,
                     nom         : req.session.user.nom,
                     prenom      : req.session.user.prenom,
@@ -518,11 +519,11 @@ app.post("/aller&retour2", function (req,res) {
                     places      : car.places,
                     car         : car.car,
                     description : desc
-                  }, function (error, traget2) {
+                  }, function (error, trajet2) {
                     if (error) res.render("propBoth2", {user: req.session.user, error: error});
-                    else if (traget2){
-                      sendmails(traget2.depart, traget2.etape, traget2.dest, req, allezDate, allezTime);
-                      res.render("success", {traget: traget1, user: req.session.user, traget2: traget2});
+                    else if (trajet2){
+                      sendmails(trajet2.depart, trajet2.etape, trajet2.dest, req, allezDate, allezTime);
+                      res.render("success", {trajet: trajet1, user: req.session.user, trajet2: trajet2});
                     }
                   });
                 }
@@ -557,7 +558,7 @@ app.post("/aller&retour2", function (req,res) {
                 var mined     = addzero(mins)
                 var allezTime = houred+":"+mined
                 var allezDate = new DateOnly(req.session.aller1.allezDate).toISOString()
-                traget.create({
+                trajet.create({
                   userid      : req.session.user._id,
                   nom         : req.session.user.nom,
                   prenom      : req.session.user.prenom,
@@ -570,10 +571,10 @@ app.post("/aller&retour2", function (req,res) {
                   places      : car.places,
                   car         : car.car,
                   description : desc
-                }, function (error , traget1) {
+                }, function (error , trajet1) {
                   if (error) res.render("aller1", {user:req.session.user, error: error});
-                  if (traget1) {
-                    sendmails(traget1.depart, traget1.etape, traget1.dest, req, allezDate, allezTime);
+                  if (trajet1) {
+                    sendmails(trajet1.depart, trajet1.etape, trajet1.dest, req, allezDate, allezTime);
                     var retourDepartDate = new Date(req.body.retourDepartDate)
                     var hour             = retourDepartDate.getUTCHours()
                     var houred           = addzero(hour)
@@ -581,7 +582,7 @@ app.post("/aller&retour2", function (req,res) {
                     var mined            = addzero(mins)
                     var allezTime        = houred+":"+mined // retreive the time in a string format
                     var retourDepartDate = new DateOnly(retourDepartDate).toISOString() // date in string format
-                    traget.create({
+                    trajet.create({
                       userid      : req.session.user._id,
                       nom         : req.session.user.nom,
                       prenom      : req.session.user.prenom,
@@ -594,11 +595,11 @@ app.post("/aller&retour2", function (req,res) {
                       places      : car.places,
                       car         : car.car,
                       description : desc
-                    }, function (error, traget2) {
+                    }, function (error, trajet2) {
                       if (error) res.render("propBoth2", {user: req.session.user, error: error});
-                      else if (traget2){
-                        sendmails(traget2.depart, traget2.etape, traget2.dest, req, allezDate, allezTime);
-                        res.render("success", {traget: traget1, user: req.session.user, traget2: traget2});
+                      else if (trajet2){
+                        sendmails(trajet2.depart, trajet2.etape, trajet2.dest, req, allezDate, allezTime);
+                        res.render("success", {trajet: trajet1, user: req.session.user, trajet2: trajet2});
                       }
                     });
                   }
@@ -633,7 +634,7 @@ app.post("/aller&retour2", function (req,res) {
                   var mined     = addzero(mins)
                   var allezTime = houred+":"+mined
                   var allezDate = new DateOnly(allezDate).toISOString()
-                  traget.create({
+                  trajet.create({
                     userid      : req.session.user._id,
                     nom         : req.session.user.nom,
                     prenom      : req.session.user.prenom,
@@ -646,10 +647,10 @@ app.post("/aller&retour2", function (req,res) {
                     places      : car.places,
                     car         : car.car,
                     description : desc
-                  }, function (error , traget1) {
+                  }, function (error , trajet1) {
                     if (error) res.render("aller1", {user:req.session.user, error: error});
-                    if (traget1) {
-                      sendmails(traget1.depart, traget1.etape, traget1.dest, req, allezDate, allezTime);
+                    if (trajet1) {
+                      sendmails(trajet1.depart, trajet1.etape, trajet1.dest, req, allezDate, allezTime);
                       var retourDepartDate = new Date(req.body.retourDepartDate)
                       var hour             = retourDepartDate.getUTCHours()
                       var houred           = addzero(hour)
@@ -657,7 +658,7 @@ app.post("/aller&retour2", function (req,res) {
                       var mined            = addzero(mins)
                       var allezTime        = houred+":"+mined // retreive the time in a string format
                       var retourDepartDate = new DateOnly(retourDepartDate).toISOString() // date in string format
-                      traget.create({
+                      trajet.create({
                         userid      : req.session.user._id,
                         nom         : req.session.user.nom,
                         prenom      : req.session.user.prenom,
@@ -670,11 +671,11 @@ app.post("/aller&retour2", function (req,res) {
                         places      : car.places,
                         car         : car.car,
                         description : desc
-                      }, function (error, traget2) {
+                      }, function (error, trajet2) {
                         if (error) res.render("propBoth2", {user: req.session.user, error: error});
-                        else if (traget2){
-                          sendmails(traget2.depart, traget2.etape, traget2.dest, req, allezDate, allezTime);
-                          res.render("success", {traget: traget1, user: req.session.user, traget2: traget2});
+                        else if (trajet2){
+                          sendmails(trajet2.depart, trajet2.etape, trajet2.dest, req, allezDate, allezTime);
+                          res.render("success", {trajet: trajet1, user: req.session.user, trajet2: trajet2});
                         }
                       });
                     }
@@ -691,12 +692,16 @@ app.post("/aller&retour2", function (req,res) {
 
 // test add car
 app.get("/testcar", function (req,res) {
+  res.render("testcar");
+})
+
+app.post("/testcar", function (req,res) {
     cars.create({
-      mat:            "TECHERA",
-      model:          "C5",
-      places:          4,
-      etablissement:  "Montpellier",
-      rattachement:   "Example"
+      mat:            req.body.mat,
+      model:          req.body.model,
+      places:         req.body.places,
+      etablissement:  req.body.etablissement,
+      remarque:       req.body.remarque
   },function (error, suc1) {
     if (error) res.render("error", {error: error});
     if (suc1) {
@@ -719,6 +724,7 @@ app.get("/testcar", function (req,res) {
 
 //login
 app.post('/login', function(req,res){
+  if (req.session.user) res.redirect("/profile")
   if (req.body.submit){
     user.findOne({
       email: req.body.email
@@ -745,6 +751,7 @@ app.post('/login', function(req,res){
 
 //register
 app.post('/register', function(req,res){
+  if (req.session.user) res.redirect("/profile");
   if (req.body.password == req.body.confirm){
     var hashedpass = bcrypt.hashSync(req.body.password, 10);
     user.create({
@@ -762,6 +769,20 @@ app.post('/register', function(req,res){
       if (error){ res.render('register', {ps:error});}
       else {
         req.session.user = user;
+        // send registeration email
+        var mailoptions = {
+          to: user.email,
+          from: "easytraveltechera@gmail.com",
+          subject: "Compte crée !",
+          text: "Bienvenu parmis nous !"
+        }
+        transporter.sendMail(mailoptions, function (error, success) {
+          if (error) console.log("Error => "+error);
+          else if (success){
+            console.log("Email Sent "+email.info );
+          }
+        });
+        // redirect user to profile
         res.redirect('/profile');
       }
     });
@@ -771,6 +792,7 @@ app.post('/register', function(req,res){
 });
 //update profile
 app.post('/update', function (req,res) {
+  if (!req.session.aller1) res.redirect("/notlogged");
   if (req.body.submit){
     var hashedpass = bcrypt.hashSync(req.body.password, 10);
     user.findOneAndUpdate({_id: req.session.user._id},{$set:{
@@ -843,12 +865,12 @@ server.listen(80);
 // template
 var reserv_template = fs.readFileSync("./email/reserv.ejs", "utf-8");
 var accept_template = fs.readFileSync("./email/accept.ejs", "utf-8");
-var traget_template = fs.readFileSync("./email/traget.ejs", "utf-8")
+var trajet_template = fs.readFileSync("./email/trajet.ejs", "utf-8")
 
 // compile templates
 var reserv_compiled = ejs.compile(reserv_template);
 var accept_compiled = ejs.compile(accept_template);
-var traget_compiled = ejs.compile(traget_template);
+var trajet_compiled = ejs.compile(trajet_template);
 
 // #########[sockets]#######
 var io = require('socket.io')(server);
@@ -856,8 +878,8 @@ io.sockets.on('connection', function(socket){
   console.log('user connected');
   socket.on('reserver', function (data) {
     console.log("reservation");
-    //traget
-    var tragetid = data.tragetid;
+    //trajet
+    var trajetid = data.trajetid;
     var destination = data.destination;
     var depart = data.depart;
     var date = data.date;
@@ -870,8 +892,8 @@ io.sockets.on('connection', function(socket){
 
     // trouver si il a déja fait une reservation
     reserver.create({
-      //traget
-      tragetid: tragetid,
+      //trajet
+      trajetid: trajetid,
       depart: depart,
       destination: destination,
       date: date,
@@ -889,12 +911,12 @@ io.sockets.on('connection', function(socket){
           if (error) console.log("Error "+error);
           else if (usr) {
             console.log(usr.email);
-            socket.emit('success', tragetid);
-            traget.findOne({_id: tragetid}, function (error, trajet) {
+            socket.emit('success', trajetid);
+            trajet.findOne({_id: trajetid}, function (error, trajet) {
               if (error) console.log(error);
               else if(trajet) {
                 var mailOptions = {
-                  from: 'med.mahmoudi2001gmail.com',
+                  from: 'easytraveltechera@gmail.com',
                   to: usr.email,
                   subject: 'Reservation',
                   html: ejs.render(reserv_template,{usr: usr, trajet: trajet})
@@ -912,12 +934,12 @@ io.sockets.on('connection', function(socket){
     });
   });
   socket.on('accepter', function (data) {
-    var tragetid = data.tragetid;
+    var trajetid = data.trajetid;
     var reserveid = data.reserveid;
-    traget.findOneAndUpdate({$and: [{_id: tragetid}, {places:{$ne: 0}}]}, {$inc:{places: -1}},{new:true}, function (error,newtraget) {
+    trajet.findOneAndUpdate({$and: [{_id: trajetid}, {places:{$ne: 0}}]}, {$inc:{places: -1}},{new:true}, function (error,newtrajet) {
       if (error) socket.emit('error', error);
-      if (newtraget) {
-        if(newtraget == ''){
+      if (newtrajet) {
+        if(newtrajet == ''){
           socket.emit('full',reserveid);
         }else{
             reserver.findOneAndUpdate({_id: reserveid}, {$set:{reserved: true}},{new: true}, function (err, up) {
@@ -928,11 +950,11 @@ io.sockets.on('connection', function(socket){
                 else if (usr) {
                   socket.emit('success', reserveid);
                   var mailOptions = {
-                    from: 'med.mahmoudi2001gmail.com',
+                    from: 'easytraveltechera@gmail.com',
                     to: usr.email,
                     subject: 'Reservation acceptée',
-                    html: ejs.render(accept_template,{trajet: newtraget, usr:usr})
-                    /*text: 'Votre reservation avec '+newtraget.nom+' le '+newtraget.allezDate+' de '+newtraget.depart+' vers '+newtraget.dest+' est acceptée'*/
+                    html: ejs.render(accept_template,{trajet: newtrajet, usr:usr})
+                    /*text: 'Votre reservation avec '+newtrajet.nom+' le '+newtrajet.allezDate+' de '+newtrajet.depart+' vers '+newtrajet.dest+' est acceptée'*/
                   };
                   transporter.sendMail(mailOptions, function (error, result) {
                     if (error) console.log("[ !! ] Error: "+error);
@@ -959,10 +981,10 @@ function addzero(num) {
 
 // transporter
 var transporter = nodemailer.createTransport({
-  service: 'gmail',
+  service: '@marouen-kanoun',
   auth: {
-    user: 'med.mahmoudi2001@gmail.com',
-    pass: '23793213'
+    user: 'easytraveltechera@gmail.com',
+    pass: '20104957'
   }
 });
 
@@ -976,10 +998,10 @@ function sendmails(depart, etape, dest, req, date, time) {
     });
   });
   var mailOptions = {
-    from: 'med.mahmoudi2001gmail.com',
+    from: 'easytraveltechera@gmail.com',
     to: mailist,
     subject: 'Nouveau trajet de '+depart+" vers "+dest,
-    html: ejs.render(traget_template,{user: req.session.user, depart: depart, dest: dest, etape: etape, date: date, time: time})
+    html: ejs.render(trajet_template,{user: req.session.user, depart: depart, dest: dest, etape: etape, date: date, time: time})
     /*text: req.session.user.nom+' a proposé un tajet de '+depart+" vers "+dest+" passant par "+etape*/
   };
   transporter.sendMail(mailOptions, function (error, result) {

@@ -26,8 +26,8 @@
   <nav class="navbar      fixed-top  navbar-expand-lg  " color-on-scroll="100" id="sectionsNav">
     <div class="container">
       <div class="navbar-translate">
-        <a class="navbar-brand font-weight-bold" href="https://demos.creative-tim.com/material-kit-pro/index.html"style="color:#112D4E;font-size:20px;">
-          Carpool. </a>
+        <a class="navbar-brand font-weight-bold" href="/"style="color:#112D4E;font-size:20px;">
+          Easy travel </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="sr-only">Toggle navigation</span>
           <span class="navbar-toggler-icon" ></span>
@@ -42,11 +42,11 @@
 
           <li class="dropdown nav-item">
             <a href="/" class=" nav-link"style="color:#112D4E;font-size:15px;">
-              home
+              Accueil
             </a>
           </li>
           <li class="dropdown nav-item">
-              <button style="color:white;background-color:#3F72AF;"type="button" onclick="location.href='/proposer'" class="btn nav-link">Suggest a trip</button>
+              <button style="color:white;background-color:#3F72AF;"type="button" onclick="location.href='/proposer'" class="btn nav-link">Proposer un trajet</button>
 
           </li>
           <li class="dropdown nav-item">
@@ -61,14 +61,14 @@
                 <i class="material-icons">directions</i> Trajets
               </a>
               <a href="/mesreservations" class="dropdown-item">
-                <i class="material-icons">check</i> reservations
+                <i class="material-icons">check</i> Reservations
               </a>
 
             </div>
           </li>
           <li class="dropdown nav-item">
             <a href="/logoff" class=" nav-link"style="color:#112D4E;font-size:15px;">
-              logoff
+              Déconnection
             </a>
           </li>
 
@@ -89,9 +89,7 @@
      </div>
      <div class="col-sm">
            <h2 class="text-center font-weight-normal"style="color:#112D4E;padding-bottom:40px;padding-top:40px;"> Trajets <h2>
-        <% if (propo != ''){%>
-          
-          <% propo.forEach(function(propo) { %>
+        <% if (propo != ''){%> <% propo.forEach(function(propo) { %>
        <div class="card" style="width: ;display:inline-block;height:">
          <div class="card-body">
 
@@ -104,7 +102,7 @@
      </div>
      </div>
 <% }) %> <% }else{ %>
-        <h3 class="text-center font-weight-normal"style="color:#112D4E;padding-bottom:180px;padding-top:100px;">vous n'avez proposé aucun traget<h3>
+        <h3 class="text-center font-weight-normal"style="color:#112D4E;padding-bottom:180px;padding-top:100px;">vous n'avez proposé aucun trajet<h3>
   <% } %>
      </div>
      <div class="col-sm">
@@ -117,51 +115,51 @@
     </div>
   </div>
 </section>
-  <footer class="footer footer-white"style="margin-top:15%;">
-    <div class="container">
-      <a class="footer-brand" href="http://www.creative-tim.com">Carpool</a>
-      <ul class="pull-center">
-        <li>
-          <a href="#pablo">
-            home
-          </a>
-        </li>
-        <li>
-          <a href="#pablo">
-            find trip
-          </a>
-        </li>
-        <li>
-          <a href="#pablo">
-            suggest trip
-          </a>
-        </li>
+<footer class="footer footer-white"style="">
+  <div class="container">
+    <a class="footer-brand" href="/">Easy Travel</a>
+    <ul class="pull-center">
+      <li>
+        <a href="/">
+          Accueil
+        </a>
+      </li>
+      <li>
+        <a href="/">
+          Chercher un trajet
+        </a>
+      </li>
+      <li>
+        <a href="/proposer">
+          Proposer un trajet
+        </a>
+      </li>
 
-        <li>
-          <a href="#pablo">
-            contact us
-          </a>
-        </li>
-      </ul>
-      <ul class="social-buttons float-right">
-        <li>
-          <a href="https://twitter.com/CreativeTim" target="_blank" class="btn btn-just-icon btn-link btn-twitter">
-            <i class="fa fa-twitter"></i>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.facebook.com/CreativeTim" target="_blank" class="btn btn-just-icon btn-link btn-dribbble">
-            <i class="fa fa-dribbble"></i>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.instagram.com/CreativeTimOfficial" target="_blank" class="btn btn-just-icon btn-link btn-google">
-            <i class="fa fa-google-plus"></i>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </footer>
+      <li>
+        <a href="https://www.linkedin.com/in/marouen-kanoun-627a947b/">
+          Contacter nous
+        </a>
+      </li>
+    </ul>
+    <ul class="social-buttons float-right">
+      <li>
+        <a href="#" target="_blank" class="btn btn-just-icon btn-link btn-twitter">
+          <i class="fa fa-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a href="#" target="_blank" class="btn btn-just-icon btn-link btn-dribbble">
+          <i class="fa fa-dribbble"></i>
+        </a>
+      </li>
+      <li>
+        <a href="#" target="_blank" class="btn btn-just-icon btn-link btn-google">
+          <i class="fa fa-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</footer>
   <script type="text/javascript">
   function autocomplete(inp, arr) {
     /*the autocomplete function takes two arguments,

@@ -794,13 +794,11 @@ app.post('/register', function(req,res){
 app.post('/update', function (req,res) {
   if (!req.session.user) res.redirect("/notlogged");
   if (req.body.submit){
-    var hashedpass = bcrypt.hashSync(req.body.password, 10);
     user.findOneAndUpdate({_id: req.session.user._id},{$set:{
       nom        : req.body.nom,
       prenom     : req.body.prenom,
       year       : req.body.year,
       number     : req.body.number,
-      pass       : hashedpass,
       facebook   : req.body.facebook,
       bestdepart : req.body.bestdepart,
       bestdest   : req.body.bestdest
@@ -981,7 +979,7 @@ function addzero(num) {
 
 // transporter
 var transporter = nodemailer.createTransport({
-  service: '@marouen-kanoun',
+  service: 'gmail',
   auth: {
     user: 'easytraveltechera@gmail.com',
     pass: '20104957'

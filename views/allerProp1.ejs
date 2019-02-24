@@ -22,11 +22,14 @@
 
 <body class="profile-page sidebar-collapse"style="background-image: url('./assets/img/r1.jpg');">
 
-  <nav class="navbar      fixed-top  navbar-expand-lg  " color-on-scroll="100" id="sectionsNav">
+  <nav class="navbar      fixed-top  navbar-expand-lg height " color-on-scroll="100" id="sectionsNav">
     <div class="container">
       <div class="navbar-translate">
         <a class="navbar-brand font-weight-bold" href="/"style="color:#112D4E;font-size:20px;">
-          Easy travel </a>
+          <img src="" style="
+width: 80px;
+margin-bottom: 30px;
+"> </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="sr-only">Toggle navigation</span>
           <span class="navbar-toggler-icon" ></span>
@@ -76,7 +79,7 @@
 
     </div>
   </nav>
-<section style="margin-top:200px;">
+<section style="margin-top:200px;min-height:500px;">
 
   <div class="main "style="margin:50px;">
     <div class="profile-content">
@@ -119,7 +122,7 @@
       <div style="padding-top:20px;">
       <div class="form-group">
         <label for="exampleFormControlInput1">Etablissement</label>
-        <input type="text" class="form-control" name="etab">
+        <input type="text" class="form-control" name="etab"id="etab">
       </div>
 
       </div>
@@ -136,7 +139,10 @@
 </section>
 <footer class="footer footer-white"style="">
   <div class="container">
-    <a class="footer-brand" href="/">Easy Travel</a>
+    <a class="footer-brand" href="/"><img src="" style="
+width: 80px;
+margin-bottom: 30px;
+"></a>
     <ul class="pull-center">
       <li>
         <a href="/">
@@ -305,6 +311,9 @@
   </script>
   <script>
   autocomplete(document.getElementById("etape"), countries);
+  </script>
+  <script>
+  autocomplete(document.getElementById("etab"), countries);
   </script>
 
 

@@ -792,7 +792,7 @@ app.post('/register', function(req,res){
 });
 //update profile
 app.post('/update', function (req,res) {
-  if (!req.session.aller1) res.redirect("/notlogged");
+  if (!req.session.user) res.redirect("/notlogged");
   if (req.body.submit){
     var hashedpass = bcrypt.hashSync(req.body.password, 10);
     user.findOneAndUpdate({_id: req.session.user._id},{$set:{

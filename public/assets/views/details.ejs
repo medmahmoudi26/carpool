@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/.png">
+  <link rel="icon" type="image/png" href="../assets/img/.png">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    profile
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <!-- CSS Files -->
+  <link href="../assets/css/material-kit.css?v=2.1.1" rel="stylesheet" />
+  <!-- CSS Just for demo purpose, don't include it in your project -->
+  <link href="../assets/demo/demo.css" rel="stylesheet" />
+  <link href="../assets/demo/vertical-nav.css" rel="stylesheet" />
+</head>
+
+<body class="profile-page sidebar-collapse">
+
+  <nav class="navbar      fixed-top  navbar-expand-lg  " color-on-scroll="100" id="sectionsNav">
+    <div class="container">
+      <div class="navbar-translate">
+        <a class="navbar-brand font-weight-bold" href="/"style="color:#112D4E;font-size:20px;">
+          Easy travel </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon" ></span>
+          <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+
+
+          <li class="dropdown nav-item">
+            <a href="/" class=" nav-link"style="color:#112D4E;font-size:15px;">
+              Accueil
+            </a>
+          </li>
+          <li class="dropdown nav-item">
+              <button style="color:white;background-color:#3F72AF;"type="button" onclick="location.href='/proposer'" class="btn nav-link">Proposer un trajet</button>
+
+          </li>
+          <li class="dropdown nav-item">
+            <a href="/user/login" class="dropdown-toggle nav-link" data-toggle="dropdown">
+             <%= user.prenom %>
+            </a>
+            <div class="dropdown-menu dropdown-with-icons">
+              <a href="/user/profile" class="dropdown-item">
+                <i class="material-icons">face</i> Profile
+              </a>
+              <a href="/mestrajets" class="dropdown-item">
+                <i class="material-icons">directions</i> Trajets
+              </a>
+              <a href="/mesreservations" class="dropdown-item">
+                <i class="material-icons">check</i> Reservations
+              </a>
+
+            </div>
+          </li>
+          <li class="dropdown nav-item">
+            <a href="/logoff" class=" nav-link"style="color:#112D4E;font-size:15px;">
+              Déconnection
+            </a>
+          </li>
+
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+  <div class="page-header header-filter" data-parallax="true" style="background-image: url('../assets/img/r1.jpg');"></div>
+  <div class="main main-raised">
+    <div class="profile-content">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-md-6 ml-auto mr-auto">
+            <div class="profile">
+              <div class="avatar">
+                <img src="../assets/img/faces/christian.jpg" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+              </div>
+
+              <div class="name">
+                <h3 class="title"><%= user.prenom %> <%= user.nom %></strong>
+                  <br>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-10 ml-auto mr-auto">
+          <div class="card card-signup">
+            <h2 class="card-title text-center"></h2>
+            <div class="card-title text-center">
+
+          </div>
+            <div class="card-body" style="padding:0px;">
+              <div class="row">
+                <% if (typeof user != 'undefined') { %>
+                <div class="col-md-5 ml-auto">
+
+                  <form class="form" method="" autocomplete="off" action="">
+                    <div class="form-group">
+                      <div class="input-group"style="margin-bottom:50px;" >
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="material-icons">face</i>
+                          </span>
+                        </div>
+                         <h4 style="margin-left:20px;margin-right:20px;max-width:250px;"><strong style="margin-right:10px;">Nom:</strong><%= user.nom %><h4>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group" style="margin-bottom:50px;">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="material-icons">face</i>
+                          </span>
+                        </div>
+                                               <h4 style="margin-left:20px;margin-right:20px;max-width:250px;"><strong style="margin-right:10px;">Prenom:</strong>	<%= user.prenom %><h4>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group" style="margin-bottom:50px;">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="material-icons">mail</i>
+                          </span>
+                        </div>
+                        <h4 style="margin-left:20px;margin-right:20px;max-width:250px;max-width:250px;"><strong style="margin-right:10px;">E-mail:</strong><%= user.email %><h4>
+                      </div>
+                    </div>
+
+
+                  </form>
+
+                </div>
+                <div class="col-md-5 mr-auto">
+
+                  <form class="form" method=""autocomplete="off" action="">
+                    <div class="form-group ">
+                      <div class="input-group" style="margin-bottom:50px;">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="material-icons">date_range</i>
+                          </span>
+                        </div>
+                        <h4 style="margin-left:20px;margin-right:20px;max-width:250px;"><strong style="margin-right:10px;">année de naissance:</strong>	<%= user.year %><h4>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group" style="margin-bottom:50px;">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="material-icons">phone</i>
+                          </span>
+                        </div>
+                        <h4 style="margin-left:20px;margin-right:20px;max-width:250px;"><strong style="margin-right:10px;">num de teléphone:</strong>	<%= user.number %><h4>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group" style="margin-bottom:50px;">
+
+
+                            <div class="input-group-prepend">
+                              <span class="input-group-text ">
+                                <i class="material-icons">link</i>
+                              </span>
+                            </div>
+                            <h4 style="margin-left:20px;margin-right:20px;max-width:250px;"><strong style="margin-right:10px;">lien du facebook:</strong>	<%= user.facebook %><h4>
+
+                      </div>
+                    </div>
+
+
+                    </div>
+                  </form>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+                        <div class="card-title text-center"style="margin-bottom:2%;">
+
+
+          </div>
+          </div>
+        </div>
+
+        <footer class="footer footer-white"style="">
+          <div class="container">
+            <a class="footer-brand" href="/">Easy Travel</a>
+            <ul class="pull-center">
+              <li>
+                <a href="/">
+                  Accueil
+                </a>
+              </li>
+              <li>
+                <a href="/">
+                  Chercher un trajet
+                </a>
+              </li>
+              <li>
+                <a href="/proposer">
+                  Proposer un trajet
+                </a>
+              </li>
+
+              <li>
+                <a href="https://www.linkedin.com/in/marouen-kanoun-627a947b/">
+                  Contacter nous
+                </a>
+              </li>
+            </ul>
+            <ul class="social-buttons float-right">
+              <li>
+                <a href="#" target="_blank" class="btn btn-just-icon btn-link btn-twitter">
+                  <i class="fa fa-twitter"></i>
+                </a>
+              </li>
+              <li>
+                <a href="#" target="_blank" class="btn btn-just-icon btn-link btn-dribbble">
+                  <i class="fa fa-dribbble"></i>
+                </a>
+              </li>
+              <li>
+                <a href="#" target="_blank" class="btn btn-just-icon btn-link btn-google">
+                  <i class="fa fa-google-plus"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </footer>
+        <script type="text/javascript">
+        function autocomplete(inp, arr) {
+          /*the autocomplete function takes two arguments,
+          the text field element and an array of possible autocompleted values:*/
+          var currentFocus;
+          /*execute a function when someone writes in the text field:*/
+          inp.addEventListener("input", function(e) {
+              var a, b, i, val = this.value;
+              /*close any already open lists of autocompleted values*/
+              closeAllLists();
+              if (!val) { return false;}
+              currentFocus = -1;
+              /*create a DIV element that will contain the items (values):*/
+              a = document.createElement("DIV");
+              a.setAttribute("id", this.id + "autocomplete-list");
+              a.setAttribute("class", "autocomplete-items");
+              /*append the DIV element as a child of the autocomplete container:*/
+              this.parentNode.appendChild(a);
+              /*for each item in the array...*/
+              for (i = 0; i < arr.length; i++) {
+                /*check if the item starts with the same letters as the text field value:*/
+                if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                  /*create a DIV element for each matching element:*/
+                  b = document.createElement("DIV");
+                  /*make the matching letters bold:*/
+                  b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                  b.innerHTML += arr[i].substr(val.length);
+                  /*insert a input field that will hold the current array item's value:*/
+                  b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                  /*execute a function when someone clicks on the item value (DIV element):*/
+                      b.addEventListener("click", function(e) {
+                      /*insert the value for the autocomplete text field:*/
+                      inp.value = this.getElementsByTagName("input")[0].value;
+                      /*close the list of autocompleted values,
+                      (or any other open lists of autocompleted values:*/
+                      closeAllLists();
+                  });
+                  a.appendChild(b);
+                }
+              }
+          });
+          /*execute a function presses a key on the keyboard:*/
+          inp.addEventListener("keydown", function(e) {
+              var x = document.getElementById(this.id + "autocomplete-list");
+              if (x) x = x.getElementsByTagName("div");
+              if (e.keyCode == 40) {
+                /*If the arrow DOWN key is pressed,
+                increase the currentFocus variable:*/
+                currentFocus++;
+                /*and and make the current item more visible:*/
+                addActive(x);
+              } else if (e.keyCode == 38) { //up
+                /*If the arrow UP key is pressed,
+                decrease the currentFocus variable:*/
+                currentFocus--;
+                /*and and make the current item more visible:*/
+                addActive(x);
+              } else if (e.keyCode == 13) {
+                /*If the ENTER key is pressed, prevent the form from being submitted,*/
+                e.preventDefault();
+                if (currentFocus > -1) {
+                  /*and simulate a click on the "active" item:*/
+                  if (x) x[currentFocus].click();
+                }
+              }
+          });
+          function addActive(x) {
+            /*a function to classify an item as "active":*/
+            if (!x) return false;
+            /*start by removing the "active" class on all items:*/
+            removeActive(x);
+            if (currentFocus >= x.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = (x.length - 1);
+            /*add class "autocomplete-active":*/
+            x[currentFocus].classList.add("autocomplete-active");
+          }
+          function removeActive(x) {
+            /*a function to remove the "active" class from all autocomplete items:*/
+            for (var i = 0; i < x.length; i++) {
+              x[i].classList.remove("autocomplete-active");
+            }
+          }
+          function closeAllLists(elmnt) {
+            /*close all autocomplete lists in the document,
+            except the one passed as an argument:*/
+            var x = document.getElementsByClassName("autocomplete-items");
+            for (var i = 0; i < x.length; i++) {
+              if (elmnt != x[i] && elmnt != inp) {
+              x[i].parentNode.removeChild(x[i]);
+            }
+          }
+        }
+        /*execute a function when someone clicks in the document:*/
+        document.addEventListener("click", function (e) {
+            closeAllLists(e.target);
+        });
+        }
+        </script>
+        <script type="text/javascript">
+          var countries = ["SAINT JEAN DE VERGES TERRE D'ARIEGE PPDC","NARBONNE CORBIERES LITTORAL PPDC","CARCASSONNE TERRES CATHARES PPDC","ESPALION PAYS D OLT ET D AUBRAC PDC1","SAINT AFFRIQUE SUD AVEYRON PDC1","VILLEFRANCHE DE ROUERGUE QUERCY PDC1",
+          "ONET LE CHATEAU PAYS RUTHENOIS PPDC","AIMARGUES PETITE CAMARGUE PDC1","ALES CEVENNES PPDC","BAGNOLS SUR CEZE GARD RHODANIEN PDC1","NIMES PPDC","ST HIPPOLYTE DU FORT GARRIGUES ET CEVENNES PDC1","MURET SUD TOULOUSAIN PDC1","SAINT GAUDENS COMMINGES PDC1","TOULOUSE CAPITOLE CENTRE OUEST PDC1","LABEGE RIVES DE L'HERS ET LAURAGAIS PDC1","PLAISANCE RIVE DU TOUCH PPDC","BRUGUIERES PPDC","TOULOUSE NORD CANAL DU MIDI PDC1","L ISLE JOURDAIN PORTE DE GASCOGNE ASTARAC PDC1","AUCH PAYS DE GASCOGNE ET ARMAGNAC PDC 1","AGDE MER ET LACS PDC1","VENDRES PAYS D ORB TERRES ET MER PPDC","ST GELY DU FESC LEZ PIC CAMARGUE PDC1","MONTPELLIER GRD PDC1","FIGEAC QUERCY BASSIN PDC1","LHOSPITALET PAYS DE CAHORS PPDC",
+          "British Virgin Islands","SAINT CHELY D APCHER PAYS GABALE PDC1","LOURDES PYRENEES SUD BIGORRE PDC1","TARBES PYRENEES VAL D'ADOUR PPDC","PERPIGNAN LA CATALANE PPDC","ST GENIS DES FONTAINES PORTE DE CATALOGNE PPDC","CASTRES PAYS D AUTAN PPDC","GRAULHET PORTES DU TARN PDC1","ALBI PAYS CATHARES PPDC","MOISSAC GARONNE PAYS DE SERRES PDC1","MONTAUBAN PORTES DE MONTAUBAN PPDC","LAVELANET PDC1","PAMIERS PDC1","SAINT GIRONS PDC1","TARASCON/ARIEGE PDC1","LE FOSSAT PDC1","MAZERES PDC1","SEIX PDC1 ","LUZENAC PDC1",
+          "ST JEAN VERGES PPDC","NARBONNE PPDC","LEZIGNAN CORBIERES PDC1","COURSAN PDC1","PORT LA NOUVELLE PDC1","CARCASSONNE PPDC","CASTELNAUDARY PDC1","BRAM PDC2","LIMOUX PDC1","QUILLAN PDC2","ESPALION PDC1","ENTRAYGUES /TRUYE","BOZOULS PDC1","ESTAING PDC1","LAGUIOLE PDC1","MUR DE BARREZ PDC1","SAINT AMANS DES COTS","STE GENEV/ARGENCE","SAINT GENIEZ D OLT","MILLAU PDC1","SAINT AFFRIQUE PDC1",
+          "ST SERNIN RANCE PDC1","BELMONT SUR RANCE","CAMARES PDC1","LA CAVALERIE PDC1","COUPIAC PDC2","CAPDENAC GARE PDC1","DECAZEVILLE PDC1","ANGLARS PDC1","VILLEFR. ROUERGUE","VILLENEUVE PDC1","NAJAC PDC1","LUC LA PRIMAUBE PDC1","MARCILLAC VALLON","RIEUPEYROUX PDC1","REQUISTA PDC1","LAISSAC PDC1","PONT DE SALARS PDC1","CASSAGNES BEGONHES","NAUCELLE PDC1","SEVERAC LE CHATEAU","VILLEFRANCHE DE PANA","ONET LE CHATEAU PPDC","BAGNOLS SUR CEZE PDC1",
+          "CONNAUX PDC1","GOUDARGUES PDC2","LAUDUN PDC1","PONT SAINT ESPRIT PDC1","REMOULINS PDC1","ROCHEFORT DU GARD PDC1","ROQUEMAURE PDC1","VILLENEUVE LES AVIGNON PDC1","AIMARGUES PDC1","BEAUCAIRE PDC1","LE GRAU DU ROI PDC1","MARGUERITTES PDC1","SAINT CHAPTES PDC1","SAINT GILLES PDC1","SOMMIERES PDC1","UZES PDC1","ALES PPDC","BARJAC PDC1","BESSEGES PDC1","GENOLHAC PDC1","LA GRAND COMBE PDC1","LES MAGES PDC1","SAINT AMBROIX PDC1","ST HIPPOLYTE DU FORT PDC1","ANDUZE PDC1",
+          "LE VIGAN PDC1","LEDIGNAN PDC1","GANGES PDC1","VALLERAUGUE PDC2","NIMES MAS DES ABEILLES PDC1","AUTERIVE PDC1","CAZERES/GARONNE PDC1","CUGNAUX PDC1","MONTESQUIEU V. PDC1","MURET PDC1","NOE PDC1","PORTET/ GARONNE PDC1","RIEUMES PDC1","CARBONNE PDC1","CINTEGABELLE PDC1","LE FOUSSERET PDC1","LAGARDELLE/LEZE PDC1","VENERQUE PDC1","BAGNERES LUCH. PDC1","MONTREJEAU PDC1","SAINT GAUDENS PDC1","SAINT MARTORY PDC1",
+          "BOULOGNE/GESSE PDC1","SAINT BEAT PDC1","TLSE CAPITOLE PDC1","TLSE ST CYPRIEN PDC1","TLSE MIRAIL PDC1","BALMA PDC1","CASTANET TOLOSA PDC1","MONTGISCARD PDC1","RAMONVILLE ST A.PDC1","REVEL PDC1","L UNION PDC1","VILLEFR.LAURAGA.PDC1","LABEGE PDC1","CARAMAN PDC1","MONTRABE PDC1","LANTA PDC1","NAILLOUX PDC1","SAINT LYS PDC1","TOURNEFEUILLE PDC1","PLAISANCE DU T. PPDC","BLAGNAC PDC1",
+          "FRONTON PDC1","GRENADE PDC1","MONTASTRUC-CONS PDC1","VILLEMUR / TARN PDC1","SAINT ALBAN PDC1","TLSE COTE PAVEE PDC1","TLSE RANGUEIL PDC1","TOULOUSE NORD PDC1","LEVIGNAC PDC1","L ISLE EN DODON PDC1","CADOURS PDC1","FLEURANCE PDC1","L ISLE JOURDAIN PDC1","MAUVEZIN PDC1","MIRANDE PDC1","GIMONT PDC1","MIELAN PDC1","MASSEUBE PDC1","SAMATAN PDC1","SARAMON PDC1",
+          "LOMBEZ PDC1","CONDOM PDC1","EAUZE PDC1","VIC FEZENSAC PDC1","NOGARO PDC1","CAZAUBON PDC1","MARCIAC PDC1","PLAISANCE.GERS PDC1","AUCH PPDC","SAINT GELY DU FESC PDC1","VENDARGUES PDC1","CASTELNAU LE LEZ PDC1","LUNEL PDC1","MONTPELLIER SUD PDC1","MONTPELLIER NORD PDC1","ST JEAN AURIOL PDC1","LATTES PDC1","MAUGUIO PDC1","SAINT JEAN DE VEDAS PPDC","PIGNAN PDC2","COURNONTERRAL PDC2",
+          "AGDE PDC1","FRONTIGNAN MAS DE KLE PDC1","SETE PDC1","PEZENAS PDC1","CLERMONT L HERAULT PDC1","LODEVE PDC1","GIGNAC PDC1","PAULHAN PDC1","VENDRES BEZIERS PPDC","THEZAN LES BEZIERS PDC2","SERVIAN PDC2","CAPESTANG PDC1","SAINT CHINIAN PDC1","CESSENON SUR ORB PDC2","OLONZAC PDC2","BEDARIEUX PDC1","LE BOUSQUET D ORB PDC2","SAINT PONS DE THOMIERES PDC2","LA SALVETAT SUR AGOUT PDC2",
+          "OLARGUES PDC2","BRETENOUX PDC1","BRETENOUX PDC1","GRAMAT PDC1","LACAPELLE MARIVAL","MARTEL PDC1","SOUILLAC PDC1","CAJARC PDC2","LABASTIDE MURAT PDC1","GOURDON PDC1","PUY L EVEQUE PDC1","LUZECH PDC1","MONTCUQ PDC2","CATUS PDC1","SALVIAC PDC1","LHOSPITALET PPDC","MENDE PDC1","FLORAC PDC1","SAINT CHELY D APCHER PDC1","LA CANOURGUE PDC1","LANGOGNE PDC1","MARVEJOLS PDC1",
+          "PIERREF.VDGAVES PDC1","BAGNERES PDC1","LANNEMEZAN PPDC","LOURDES PDC1","ARREAU PDC1","CASTELNAU MAGNO PDC1","TOURNAY PDC1","ST LARY SOULAN PDC1","TRIE SUR BAISE PDC1","TARBES PDC1","AUREILHAN PDC1","MAUBOURGUET PDC1","VIC EN BIGORRE PDC1","BARBAZAN DEBAT PDC1","TARBES PPDC","SAINT GENIS DES FONTAINES PPDC","THUIR PDC1","MILLAS PDC1","CERET PDC1","PORT VENDRES PDC1",
+          "PRATS DE MOLLO PDC2","ESTAGEL PDC1","PRADES PPDC","SAILLAGOUSE PDC2","PERPIGNAN PPDC","LE BARCARES PDC2","CANET EN ROUSSILLON PDC1","RIVESALTES PDC1","ELNE PDC1","SAINT LAURENT DE LA SALANQUE PDC1","TOULOUGES PDC1","CASTRES PREVERT PPDC","MAZAMET PDC1","BRASSAC PDC1","DOURGNE PDC1","LACAUNE PDC1","LAUTREC PDC2","CUQ TOULZA PDC2","CASTELNAU-MONTMIRAL","GAILLAC PDC1","GRAULHET PDC1","LAVAUR PDC1","RABASTENS PDC1",
+          "CORDES PDC1","CARMAUX PDC1","MARSSAC / TARN PDC1","REALMONT PDC1","ALBAN PDC2","VALENCE D ALBIGEOIS","VILLEFR.ALBIGEOIS","ALBI PPDC","CASTELSARRASIN PDC1","MOISSAC PDC1","VALENCE D AGEN PDC1","LAUZERTE PDC1","BOURG DE VISA PDC2","LAFRANCAISE PDC1","MONTAIGU DE QUERCY","MONTAUBAN PDC1","BEAUMONT DE LOMAGNE","CAUSSADE PDC1","MONTECH PDC1","NEGREPELISSE PDC1","LABASTIDE ST PIERRE","VERDUN SUR GARONNE","CAYLUS PDC1",
+          "GRISOLLES PDC1","SAINT ANTONIN NOBLE","MONTAUBAN PPDC","DSCC MIDI-PYRENNEES SUD","DSCC GOLFE DU LION","DSCC MIDI-PYRENEES NORD",
+          ,".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".",".","."];
+        </script>
+        <script>
+        autocomplete(document.getElementById("takeoff"), countries);
+        </script>
+        <script>
+        autocomplete(document.getElementById("land"), countries);
+        </script>
+
+
+        <script type="text/javascript">
+                 $(function () {
+                     $('#datetimepicker3').datetimepicker({
+                         format: 'LT'
+                     });
+                 });
+             </script>
+        <!--   Core JS Files   -->
+        <script src="./assets/js/core/jquery.min.js" type="text/javascript"></script>
+        <script src="./assets/js/core/popper.min.js" type="text/javascript"></script>
+        <script src="./assets/js/core/bootstrap-material-design.min.js" type="text/javascript"></script>
+        <script src="./assets/js/plugins/moment.min.js"></script>
+        <!--	Plugin for the Datepicker, full documentation here: https://github.com/Eonasdan/bootstrap-datetimepicker -->
+        <script src="./assets/js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
+        <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+        <script src="./assets/js/plugins/nouislider.min.js" type="text/javascript"></script>
+        <!--  Google Maps Plugin    -->
+        <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+        <!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
+        <script src="./assets/js/plugins/bootstrap-tagsinput.js"></script>
+        <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+        <script src="./assets/js/plugins/bootstrap-selectpicker.js" type="text/javascript"></script>
+        <!--	Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+        <script src="./assets/js/plugins/jasny-bootstrap.min.js" type="text/javascript"></script>
+        <!--	Plugin for Small Gallery in Product Page -->
+        <script src="./assets/js/plugins/jquery.flexisel.js" type="text/javascript"></script>
+        <!-- Plugins for presentation and navigation  -->
+        <script src="./assets/demo/modernizr.js" type="text/javascript"></script>
+        <script src="./assets/demo/vertical-nav.js" type="text/javascript"></script>
+        <!-- Place this tag in your head or just before your close body tag. -->
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <!-- Js With initialisations For Demo Purpose, Don't Include it in Your Project -->
+        <script src="./assets/demo/demo.js" type="text/javascript"></script>
+        <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
+        <script src="./assets/js/material-kit.js?v=2.1.1" type="text/javascript"></script>
+        <script>
+          $(document).ready(function() {
+            //init DateTimePickers
+            materialKit.initFormExtendedDatetimepickers();
+
+            // Sliders Init
+            materialKit.initSliders();
+          });
+        </script>
+      </body>
+      </html>

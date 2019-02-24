@@ -60,6 +60,7 @@ main,
 nav,
 section {
   display: block;
+
 }
 
 body {
@@ -7534,7 +7535,7 @@ button.bg-dark:focus {
 }
 
 .p-5 {
-  padding: 3rem !important;
+  padding: 3rem ;
 }
 
 .pt-5,
@@ -12377,7 +12378,8 @@ fieldset[disabled][disabled] .form-control,
 }
 
 .is-focused .valid-feedback {
-  display: none;
+  display:
+ none;
   width: 100%;
   margin-top: 0.25rem;
   font-size: 80%;
@@ -14217,7 +14219,7 @@ footer .social-buttons .btn {
 footer .footer-brand {
   float: left;
   height: 50px;
-  padding: 15px 15px;
+  padding: 0px 0px;
   font-size: 18px;
   line-height: 20px;
   margin-left: -15px;
@@ -14387,7 +14389,7 @@ footer .pull-center {
   height: 50px;
   font-size: 1.125rem;
   line-height: 30px;
-  padding: 0.625rem 0;
+  padding: 0rem 0;
 }
 
 .navbar.bg-primary {
@@ -22319,6 +22321,23 @@ select.selectpicker {
   .choix {
   margin-top:200px;
   }
+  .card{
+    width: 1000px;
+  }
+.indexd{
+  margin-left:0%;margin-right:8%;margin-top:8%;width:30rem;display: inline-block;
+
+}
+.indexp{
+
+  width:100%;
+}
+.indexc{
+
+  width: 500px;display:inline-block;height:550px;
+}
+
+
 
  }
   @media screen and (max-width: 1200px) {
@@ -22343,7 +22362,9 @@ select.selectpicker {
    }
 
      @media screen and (max-width: 770px) {
-
+       .card{
+        min-width:0px;
+       }
    .row {
      display: flex;
          flex-wrap: wrap;
@@ -22353,6 +22374,24 @@ select.selectpicker {
    .choix{
      margin-top:0px;
    }
+   .indexd{
+     width: ;
+
+   }
+   .indexp{
+
+     width:20rem;
+   }
+   .indexb{
+
+     width:22rem;
+   }
+   .indexc{
+
+     width: auto;
+     min-width: 50px;
+   }
+
       }
       .autocomplete {
         /*the container must be positioned relative:*/
@@ -22379,6 +22418,7 @@ select.selectpicker {
         background-color: #fff;
         border-bottom: 1px solid #d4d4d4;
         text-align: left;
+        font-size: 15px;
       }
       .autocomplete-items div:hover {
         /*when hovering an item:*/
@@ -22388,5 +22428,8 @@ select.selectpicker {
         /*when navigating through the items using the arrow keys:*/
         background-color: DodgerBlue !important;
         color: #ffffff;
+      }
+      .height{
+        height: 100px;
       }
 /*# sourceMappingURL=kit-pro.css.map */

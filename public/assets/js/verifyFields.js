@@ -8,7 +8,7 @@ function verifyNumber(nbr){
 	isEmpty(nbr);
 	return /^\d+$/.test(nbr);
 }
-function verifySt  ring(str){
+function verifyString(str){
 	isEmpty(str);
 	var re = /^[A-Za-z]+$/;
     return re.test(str);

@@ -139,7 +139,7 @@ function isEmptyArray(tab){
 }
 function disableSubmitIfError(){
 	//['#errorNom', '#errorPrenom', '#errorDate', '#errorEmail', '#errorPassword1', '#errorPassword2']
-	const errors = ['#errorNom', '#errorPrenom', '#errorDate', '#errorEmail', '#errorPassword1', '#errorPassword2'];
+	const errors = ['#errorNom', '#errorPrenom', '#errorDate', '#errorEmail', '#errorPhone', '#errorPassword1', '#errorPassword2'];
 	if(isEmptyArray(errors) == false){
 		$("#valider").attr("disabled", "disabled");
 		return false;

@@ -20,7 +20,7 @@
   <link href="./assets/demo/vertical-nav.css" rel="stylesheet" />
 <style>
   .invalid { border-color: #ff3232; }
-  #errorNom, #errorPrenom, #errorDate, #errorEmail, #errorPassword1, #errorPassword2 { color: #ff3232 }
+  #errorNom, #errorPrenom, #errorDate, #errorEmail, #errorPhone, #errorPassword1, #errorPassword2 { color: #ff3232 }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
@@ -123,7 +123,8 @@ margin-bottom: 30px;
                           </span>
                         </div>
                         <input type="text" name="number" class="form-control"id="phone" placeholder="Phone Number..."required="true">
-                      </div>
+                      	<div id="errorPhone"></div>
+		      </div>
                     </div>
                     <div class="form-group">
                       <div class="input-group">

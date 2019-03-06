@@ -18,7 +18,11 @@
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="./assets/demo/demo.css" rel="stylesheet" />
   <link href="./assets/demo/vertical-nav.css" rel="stylesheet" />
-
+<style>
+  .invalid { border-color: #ff3232; }
+  #errorNom, #errorPrenom, #errorDate, #errorEmail, #errorPassword1, #errorPassword2 { color: red }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body class="index-page sidebar-collapse" style="">
@@ -85,7 +89,8 @@ margin-bottom: 30px;
                             <i class="material-icons">face</i>
                           </span>
                         </div>
-                        <input type="text" name="prenom" class="form-control"id="prénom" placeholder="First Name..."required="true">
+                        <input type="text" name="prenom" class="form-control"id="prenom" placeholder="First Name..."required="true">
+			<div id="errorPrenom"></div>
                       </div>
                     </div>
                     <div class="form-group">
@@ -96,6 +101,7 @@ margin-bottom: 30px;
                           </span>
                         </div>
                         <input type="text" name="nom" class="form-control"id="nom" placeholder="Last Name..."required="true">
+			<div id="errorNom"></div>
                       </div>
                     </div>
                     <div class="form-group">
@@ -106,6 +112,7 @@ margin-bottom: 30px;
                           </span>
                         </div>
                         <input type="text" name="email" class="form-control"id="email" placeholder="Email..."required="true">
+			<div id="errorEmail"></div>
                       </div>
                     </div>
                     <div class="form-group">
@@ -139,7 +146,8 @@ margin-bottom: 30px;
                           </span>
                         </div>
                         <input type="text" name="year" class="form-control datepicker" placeholder="Birth Date..."id='datetimepicker'>
-                      </div>
+                      	<div id="errorDate"></div>
+		      </div>
                     </div>
                     <div class="form-group">
                       <div class="input-group">
@@ -173,7 +181,8 @@ margin-bottom: 30px;
                           </span>
                         </div>
                         <input name="password" type="password" placeholder="Password..." id="password" class="form-control"required="true"autocomplete="off" />
-                      </div>
+                      	<div id="errorPassword1"></div>
+		      </div>
                     </div>
                     <div class="form-group">
                       <div class="input-group">
@@ -183,7 +192,8 @@ margin-bottom: 30px;
                           </span>
                         </div>
                         <input type="password" name="confirm" placeholder="Confirm Password..."id="confirm password"class="form-control"required="true"autocomplete="off" />
-                      </div>
+                       <div id="errorPassword2"></div>
+		      </div>
                     </div>
 
               </div>
@@ -196,7 +206,7 @@ margin-bottom: 30px;
 								<%= ps %> Error while sign up comes here
 								<% } %>
 								<br>
-								<input style="margin-top:40px;margin-bottom:20px;background-color:#3F72AF;" type="submit" class="btn" name="submit">
+								<input id="valider" style="margin-top:40px;margin-bottom:20px;background-color:#3F72AF;" type="submit" class="btn" name="submit">
 							</div>
 						</form>
           </div>
@@ -415,7 +425,10 @@ autocomplete(document.getElementById("land"), countries);
        <!-- Control Center for Material Kit: parallax effects, scripts for the example pages etc -->
        <script src="./assets/js/material-kit.js?v=2.1.1" type="text/javascript"></script>
        <script>
+       	 verifyFields();
          $(document).ready(function() {
+	   //check passwords
+	   verifyPassword();
            //init DateTimePickers
            materialKit.initFormExtendedDatetimepickers();
 

@@ -4,12 +4,14 @@ function isEmpty(value){
 		return false;
 	}
 }
-function verifyString(str){
+function verifyNumber(nbr){
+	isEmpty(nbr);
+	return /^\d+$/.test(nbr);
+}
+function verifySt  ring(str){
 	isEmpty(str);
 	var re = /^[A-Za-z]+$/;
-    if(!re.test(str)){
-		return false;
-	}
+    return re.test(str);
 }
 function verifyEmail(email){
 	isEmpty(email);

@@ -83,6 +83,21 @@ function verifyFields(){
 		errorEmail.innerHTML = "";
 	  }
 	};
+	
+	phone.onblur = function() {
+	  if (!verifyNumber($('#phone').val())) {
+		phone.classList.add('invalid');
+		errorPhone.innerHTML = "numéro n'est pas valide !";
+	  }
+	};
+
+	phone.onfocus = function() {
+	  if (this.classList.contains('invalid')) {
+		this.classList.remove('invalid');
+		errorPhone.innerHTML = "";
+	  }
+	};
+	
 disableSubmitIfError();
 }
 

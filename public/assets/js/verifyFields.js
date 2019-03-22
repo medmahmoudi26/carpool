@@ -17,10 +17,10 @@ function verifyEmail(email){
 	isEmpty(email);
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
-} 
+}
 function verifyDate(date){
 	isEmpty(date);
-	var date1 = new Date().setHours(0,0,0,0); 
+	var date1 = new Date().setHours(0,0,0,0);
 	var date2 = new Date(date).setHours(0,0,0,0);
 	if(date2 >= date1){
 		return false;
@@ -68,7 +68,7 @@ function verifyFields(){
 		this.classList.remove('invalid');
 		errorDate.innerHTML = "";
 	  }
-	};	
+	};
 
 	email.onblur = function() {
 	  if (!verifyEmail($('#email').val())) {
@@ -83,7 +83,7 @@ function verifyFields(){
 		errorEmail.innerHTML = "";
 	  }
 	};
-	
+
 	phone.onblur = function() {
 	  if (!verifyNumber($('#phone').val())) {
 		phone.classList.add('invalid');
@@ -97,7 +97,7 @@ function verifyFields(){
 		errorPhone.innerHTML = "";
 	  }
 	};
-	
+
 disableSubmitIfError();
 }
 
@@ -107,7 +107,7 @@ function verifyPassword(){
 			$("#password").addClass('invalid');
 			errorPassword1.innerHTML = 'Mot de passe au minimum 6 charactéres !';
 		}
-	});	
+	});
 	$("#password").focus(function() {
 	  if (this.classList.contains('invalid')) {
 		this.classList.remove('invalid');
@@ -115,13 +115,13 @@ function verifyPassword(){
 	  }
 	});
 
-	$("#confirmpassword").blur(function(){
-		if($("#password").val() !== $("#confirmpassword").val()){
-			$("#confirmpassword").addClass('invalid');
+	$("#confirm").blur(function(){
+		if($("#password").val() !== $("#confirm").val()){
+			$("#confirm").addClass('invalid');
 			errorPassword2.innerHTML = "Mot de passe incorrect !";
 		}
 	});
-	$("#confirmpassword").focus(function() {
+	$("#confirm").focus(function() {
 		if (this.classList.contains('invalid')) {
 		this.classList.remove('invalid');
 		errorPassword2.innerHTML = "";
@@ -129,7 +129,7 @@ function verifyPassword(){
 	});
 disableSubmitIfError();
 }
-  
+
 function isEmptyArray(tab){
 	for (var i = 0; i < tab.length; i++) {
 		if(isEmpty($(tab[i]).val()) == false){

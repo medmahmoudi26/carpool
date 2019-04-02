@@ -21,8 +21,9 @@
   <link href="./assets/demo/vertical-nav.css" rel="stylesheet" />
 </head>
 
-<body class="profile-page sidebar-collapse"style="background-image: url('./assets/img/r1.jpg');">
-
+<body class="profile-page sidebar-collapse"style="background-image: url('./assets/img/r1.jpg');background-repeat: no-repeat;
+  background-size: cover;">
+  <section class="bodyy">
   <nav class="navbar      fixed-top  navbar-expand-lg height " color-on-scroll="100" id="sectionsNav">
     <div class="container">
       <div class="navbar-translate">
@@ -80,18 +81,17 @@ margin-bottom: 30px;
 
     </div>
   </nav>
-<section style="margin-top:200px;margin-bottom:300px;min-height:500px;">
 
-  <div class="main "style="margin:50px;">
+  <div class="main "style="margin-left:50px;margin-right:50px;">
     <div class="profile-content"style="height:80%;">
       <div class="container" >
             <form style=" padding-left:25%;padding-right:25%;padding-top:5%;padding-bottom: 5%;" action="/aller&retour2" method="post">
-              <h3 class="text-center font-weight-normal"style="color:#112D4E;"> Suggest a trip <h3>
+              <h3 class="text-center font-weight-normal"style="color:#112D4E;"> Proposer un trajet <h3>
                 <% if (cars != "")
                  {%>
                 <div style="margin-top:20%;margin-bottom:20%;">
                   <div class="form-group">
-                    <label for="exampleFormControlSelect1">Select a car</label>
+                    <label for="exampleFormControlSelect1">Sélectionner une voiture</label>
                     <select name="car" class="form-control selectpicker" data-style="btn btn-link" id="exampleFormControlSelect1">
                       <% cars.forEach(function(car) {%>
                       <option value="<%= car._id %>"><%= car.car %></option>
@@ -116,7 +116,7 @@ margin-bottom: 30px;
                   </div>
                   <% }
                   else { %>
-                    <center><h2>no cars </h2></center>
+                    <center><h2>aucune voiture </h2></center>
                     <% } %>
 
   </form>

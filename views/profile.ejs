@@ -21,9 +21,11 @@
   <link href="./assets/demo/vertical-nav.css" rel="stylesheet" />
 </head>
 
-<body class="profile-page sidebar-collapse">
+<body class="profile-page sidebar-collapse" style="background-image: url('./assets/img/r1.jpg'); background-repeat: no-repeat;
+  background-size: cover;" >
+  <section class="bodyy" >
 
-  <nav class="navbar      fixed-top  navbar-expand-lg  height" color-on-scroll="100" id="sectionsNav">
+  <nav class="navbar   bg-white   fixed-top  navbar-expand-lg  height" color-on-scroll="100" id="sectionsNav">
     <div class="container">
       <div class="navbar-translate">
         <a class="navbar-brand font-weight-bold" href="/"style="color:#112D4E;font-size:20px;">
@@ -80,23 +82,17 @@ margin-bottom: 30px;
 
     </div>
   </nav>
-  <div class="page-header header-filter" data-parallax="true" style="background-image: url('./assets/img/r1.jpg');"></div>
-  <div class="main main-raised">
-    <div class="profile-content">
-      <div class="container">
+
+    <div class="main "style="margin-left:50px;margin-right:50px;border-radius:0px;">
+      <div class="profile-content">
+        <div class="container">
         <div class="row">
 
           <div class="col-md-6 ml-auto mr-auto">
-            <div class="profile">
-              <div class="avatar">
-                <img src="./assets/img/faces/christian.jpg" alt="Circle Image" class="img-raised rounded-circle img-fluid">
-              </div>
-
-              <div class="name">
-                <h3 class="title"><%= user.prenom %> <%= user.nom %></strong>
+            <div class="name" style="text-align:center;margin-top:60px;">
+              <h2 class="title"><strong>Bienvenue <%= user.prenom %> <%= user.nom %></strong></h2>
 
 
-              </div>
             </div>
             <div class="profile-tabs">
               <ul class="nav nav-pills nav-pills-icons justify-content-center" role="tablist">
@@ -268,55 +264,56 @@ margin-bottom: 30px;
       </div>
       </section>
 
-      <footer class="footer footer-white"style="">
-        <div class="container">
-          <a class="footer-brand" href="/"><img src="" style="
+
+</section>
+<footer class="footer footer-white"style="">
+  <div class="container">
+    <a class="footer-brand" href="/"><img src="" style="
 width: 80px;
 margin-bottom: 30px;
 "></a>
-          <ul class="pull-center">
-            <li>
-              <a href="/">
-                Accueil
-              </a>
-            </li>
-            <li>
-              <a href="/">
-                Chercher un trajet
-              </a>
-            </li>
-            <li>
-              <a href="/proposer">
-                Proposer un trajet
-              </a>
-            </li>
+    <ul class="pull-center">
+      <li>
+        <a href="/">
+          Accueil
+        </a>
+      </li>
+      <li>
+        <a href="/">
+          Chercher un trajet
+        </a>
+      </li>
+      <li>
+        <a href="/proposer">
+          Proposer un trajet
+        </a>
+      </li>
 
-            <li>
-              <a href="https://www.linkedin.com/in/marouen-kanoun-627a947b/">
-                Contacter nous
-              </a>
-            </li>
-          </ul>
-          <ul class="social-buttons float-right">
-            <li>
-              <a href="#" target="_blank" class="btn btn-just-icon btn-link btn-twitter">
-                <i class="fa fa-twitter"></i>
-              </a>
-            </li>
-            <li>
-              <a href="#" target="_blank" class="btn btn-just-icon btn-link btn-dribbble">
-                <i class="fa fa-dribbble"></i>
-              </a>
-            </li>
-            <li>
-              <a href="#" target="_blank" class="btn btn-just-icon btn-link btn-google">
-                <i class="fa fa-google-plus"></i>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </footer>
-
+      <li>
+        <a href="https://www.linkedin.com/in/marouen-kanoun-627a947b/">
+          Contacter nous
+        </a>
+      </li>
+    </ul>
+    <ul class="social-buttons float-right">
+      <li>
+        <a href="#" target="_blank" class="btn btn-just-icon btn-link btn-twitter">
+          <i class="fa fa-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a href="#" target="_blank" class="btn btn-just-icon btn-link btn-dribbble">
+          <i class="fa fa-dribbble"></i>
+        </a>
+      </li>
+      <li>
+        <a href="#" target="_blank" class="btn btn-just-icon btn-link btn-google">
+          <i class="fa fa-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</footer>
   <script src="/socket.io/socket.io.js"></script>
   <script>
     var socket = io.connect('http://localhost:80/');

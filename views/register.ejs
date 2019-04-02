@@ -19,15 +19,14 @@
   <link href="./assets/demo/demo.css" rel="stylesheet" />
   <link href="./assets/demo/vertical-nav.css" rel="stylesheet" />
 <style>
-  .invalid { border-color: #ff3232; }
-  #errorNom, #errorPrenom, #errorDate, #errorEmail, #errorPhone, #errorPassword1, #errorPassword2 { color: #ff3232 }
+
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
-<body class="index-page sidebar-collapse" style="">
-  <section style="padding-bottom:15%;background-image: url('./assets/img/r1.jpg');background-color:#F9F7F7;background-repeat:no-repeat; background-size: cover;">
-  <nav class="navbar bg-white navbar-expand-lg navbar-transparent height" color-on-scroll="100" id="sectionsNav">
+<body class="index-page sidebar-collapse" style="background-image: url('./assets/img/r1.jpg');background-color:#F9F7F7;background-repeat:no-repeat; background-size: cover;">
+  <section style="padding-bottom:%;">
+  <nav class="navbar bg-white navbar-expand-lg height" color-on-scroll="100" id="sectionsNav">
     <div class="container">
       <div class="navbar-translate">
         <a class="navbar-brand font-weight-bold" href="/"style="color:#112D4E;font-size:20px;">
@@ -64,7 +63,7 @@ margin-bottom: 30px;
     </div>
   </nav>
 
-  <section style="margin-top:50px;">
+  <section class="bodyy4">
     <div class="container">
       <div class="row2">
         <div class="col-md-10 ml-auto mr-auto">
@@ -90,8 +89,9 @@ margin-bottom: 30px;
                           </span>
                         </div>
                         <input type="text" name="prenom" class="form-control"id="prenom" placeholder="First Name..."required="true">
-			<div id="errorPrenom"></div>
+
                       </div>
+                      <br><div id="errorPrenom"></div>
                     </div>
                     <div class="form-group">
                       <div class="input-group">
@@ -101,8 +101,9 @@ margin-bottom: 30px;
                           </span>
                         </div>
                         <input type="text" name="nom" class="form-control"id="nom" placeholder="Last Name..."required="true">
-			<div id="errorNom"></div>
+
                       </div>
+                      	<br><div id="errorNom"></div>
                     </div>
                     <div class="form-group">
                       <div class="input-group">
@@ -112,8 +113,9 @@ margin-bottom: 30px;
                           </span>
                         </div>
                         <input type="text" name="email" class="form-control"id="email" placeholder="Email..."required="true">
-			<div id="errorEmail"></div>
+
                       </div>
+                      <br><div id="errorEmail"></div>
                     </div>
                     <div class="form-group">
                       <div class="input-group">
@@ -123,8 +125,9 @@ margin-bottom: 30px;
                           </span>
                         </div>
                         <input type="text" name="number" class="form-control"id="phone" placeholder="Phone Number..."required="true">
-                      	<div id="errorPhone"></div>
+
 		      </div>
+          <br>	<div id="errorPhone"></div>
                     </div>
                     <div class="form-group">
                       <div class="input-group">
@@ -147,8 +150,9 @@ margin-bottom: 30px;
                           </span>
                         </div>
                         <input type="text" name="year" class="form-control datepicker" placeholder="Birth Date..."id='datetimepicker'>
-                      	<div id="errorDate"></div>
+
 		      </div>
+          	<br><div id="errorDate"></div>
                     </div>
                     <div class="form-group">
                       <div class="input-group">
@@ -182,8 +186,9 @@ margin-bottom: 30px;
                           </span>
                         </div>
                         <input name="password" type="password" placeholder="Password..." id="password" class="form-control"required="true"autocomplete="off" />
-                      	<div id="errorPassword1"></div>
 		      </div>
+          <br><div id="errorPassword1"></div>
+
                     </div>
                     <div class="form-group">
                       <div class="input-group">
@@ -193,8 +198,9 @@ margin-bottom: 30px;
                           </span>
                         </div>
                         <input type="password" name="confirm" placeholder="Confirm Password..."id="confirmpassword"class="form-control"required="true"autocomplete="off" />
-                       <div id="errorPassword2"></div>
 		      </div>
+          <br><div id="errorPassword2"></div>
+
                     </div>
 
               </div>

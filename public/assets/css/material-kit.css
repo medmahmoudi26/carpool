@@ -73,6 +73,79 @@ body {
   text-align: left;
   background-color: #fafafa;
 }
+.bodyy{
+  min-height: -webkit-fill-available;
+}
+.invalid { border-color: #ff3232; }
+#errorNom, #errorPrenom, #errorDate, #errorEmail, #errorPhone, #errorPassword1, #errorPassword2 { color: #ff3232; text-align: center;}
+.social-buttons{
+  display: none;
+}
+.cardd{
+  background-color: white;
+  box-shadow:0px 0 20px 0px #00000040;
+  border-radius: 5px;
+  width: 450px;
+  float: right;
+  height: auto;
+  margin: auto;
+}
+.cardd-body{
+  width: auto;
+  margin-left: 62.6px;
+  margin-top: 48px;
+  margin-bottom: 48px;
+  padding-right: 65px;
+}
+.form-title{
+
+text-align: center;
+color: #112D4E;
+    font-size: 20px;
+    font-family: roboto;
+    font-weight: bold;
+    margin-bottom: 41px;
+}
+.form-input{
+
+  display: block;
+  width: 100%;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #F9F7F7;
+  background-clip: padding-box;
+  border: 1px solid #F9F7F7;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  box-shadow: 0px 0 20px 0px #0000001f;
+}
+.label {
+  color: #8899B9;
+  font-size: 15px;
+  margin-bottom: 22.5px;
+    margin-top: 12.5px;
+  font-family: roboto;
+  font-weight: normal;
+      float: left;
+}
+.batn{
+  background-color: #3F72AF;
+  text-align: center;
+  height: 45px;
+  width: 160px;
+  font-size: 18px;
+  font-family: roboto;
+  font-weight: normal;
+  color: #F9F7F7;
+  border: 0px;
+  margin-top: 60px;
+
+}
+.separation{
+  margin-top: 11.5px;
+}
 
 [tabindex="-1"]:focus {
   outline: 0 !important;
@@ -14261,10 +14334,11 @@ footer .pull-center {
   border: 0;
   border-radius: 3px;
   padding: 0.625rem 0;
-  margin-bottom: 20px;
+  margin-top:px;
+  margin-bottom: 10px;
   color: #555;
-  background-color: #fff !important;
-  box-shadow: 0 4px 18px 0px rgba(0, 0, 0, 0.12), 0 7px 10px -5px rgba(0, 0, 0, 0.15);
+  background-color: #!important;
+  bbox-shadow: 0 4px 18px 0px rgba(0, 0, 0, 0.12), 0 7px 10px -5px rgba(0, 0, 0, 0.15);
 }
 
 .navbar .dropdown-item:hover,
@@ -15704,7 +15778,7 @@ h2.title {
 .dropdown-menu a:hover,
 .dropdown-menu a:focus,
 .dropdown-menu a:active {
-  box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
+  box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgb(63, 114, 175);
   background-color: #112D4E;
   color: #FFFFFF;
 }
@@ -18140,7 +18214,7 @@ thead.thead-inverse th,
 }
 
 .card .card-title {
-  margin-top: 0.625rem;
+  margin-top: ;
 }
 
 .card .card-title:last-child {
@@ -22319,25 +22393,31 @@ select.selectpicker {
 
 @media screen and (min-width: 1300px) {
   .choix {
-  margin-top:200px;
+  margin-top:000px;
   }
   .card{
     width: 1000px;
   }
 .indexd{
-  margin-left:0%;margin-right:8%;margin-top:8%;width:30rem;display: inline-block;
+  margin-left:0%;margin-right:8%;margin-top:0%;width:30rem;display: inline-block;
 
 }
 .indexp{
 
-  width:100%;
+  width:100%;line-height: 1.2em;
 }
 .indexc{
 
-  width: 500px;display:inline-block;height:550px;
+  width: ;display:inline-block;height:550px;
 }
-
-
+.t1{
+  color:#112D4E;font-size: 50px;
+}
+.t2{color:#3F72AF;font-size: 40px;padding-top:20px;}
+.p1{font-size: 30px;color: #f9f7f7;}
+.bodyy2{padding-top:200px;}
+.bodyy{padding-top:100px;}
+.bodyy4{padding-top:100px;}
 
  }
   @media screen and (max-width: 1200px) {
@@ -22372,15 +22452,19 @@ select.selectpicker {
          margin-left: auto;
    }
    .choix{
-     margin-top:0px;
+     margin-top:000px;
    }
    .indexd{
      width: ;
+     margin-bottom: 20px;
 
    }
    .indexp{
 
-     width:20rem;
+     width:auto;
+   }
+   .divp{
+     width: auto;
    }
    .indexb{
 
@@ -22391,6 +22475,12 @@ select.selectpicker {
      width: auto;
      min-width: 50px;
    }
+   .t1{
+     color:#112D4E;font-size: ;
+   }
+   .t2{color:#3F72AF;font-size: ;padding-top:20px;}
+   .p1{font-size: ;color: #f9f7f7;}
+   .bodyy{margin-top:20px;}
 
       }
       .autocomplete {
@@ -22401,7 +22491,7 @@ select.selectpicker {
       }
 
       .autocomplete-items {
-        position: absolute;
+        position: ;
         border: 1px solid #d4d4d4;
         border-bottom: none;
         border-top: none;
@@ -22431,5 +22521,13 @@ select.selectpicker {
       }
       .height{
         height: 100px;
+      }
+      .bodyy{
+        margin-top:200px ;
+        margin-bottom: 100px ;
+      }
+      .bodyy4{
+        margin-top: ;
+        margin-bottom: 100px ;
       }
 /*# sourceMappingURL=kit-pro.css.map */

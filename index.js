@@ -15,7 +15,7 @@ var DateOnly = require("date-only");
 // declare app variable server and connect to database
 app = express();
 var server = require('http').createServer(app);
-var db = mongoose.connect('mongodb://localhost:27017/coVoiture'); // mongodb://user661:6KLXjWlQA5SNNiyy@mongo834:27017/admin
+var db = mongoose.connect('mongodb+srv://med123:med123@cluster0-fooud.mongodb.net/test?retryWrites=true'); // mongodb://user661:6KLXjWlQA5SNNiyy@mongo834:27017/admin
 
 //session
 app.use(session({secret:'cocar'}));
@@ -982,7 +982,7 @@ var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'easytraveltechera@gmail.com',
-    pass: '20104957'
+    pass: 'tnt23793213'
   }
 });
 

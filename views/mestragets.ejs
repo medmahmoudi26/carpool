@@ -21,9 +21,10 @@
   <link href="./assets/demo/vertical-nav.css" rel="stylesheet" />
 </head>
 
-<body class="profile-page sidebar-collapse"style="background-image: url('./assets/img/r1.jpg');">
-
-  <nav class="navbar      fixed-top  navbar-expand-lg  height" color-on-scroll="100" id="sectionsNav">
+<body class="profile-page sidebar-collapse"style="background-image: url('./assets/img/r1.jpg');background-repeat: no-repeat;
+  background-size: cover;">
+<section class="bodyy">
+  <nav class="navbar    bg-white  fixed-top  navbar-expand-lg  height" color-on-scroll="100" id="sectionsNav">
     <div class="container">
       <div class="navbar-translate">
         <a class="navbar-brand font-weight-bold" href="/"style="color:#112D4E;font-size:20px;">
@@ -60,7 +61,7 @@ margin-bottom: 30px;
               <a href="/login" class="dropdown-item">
                 <i class="material-icons">face</i> Profile
               </a>
-              <a href="/mestragets" class="dropdown-item">
+              <a href="/mestrajets" class="dropdown-item">
                 <i class="material-icons">directions</i> Trajets
               </a>
               <a href="/mesreservations" class="dropdown-item">
@@ -80,9 +81,10 @@ margin-bottom: 30px;
 
     </div>
   </nav>
-<section style="margin-top:200px;margin-bottom:300px">
 
-  <div class="main "style="margin:50px;">
+
+
+  <div class="main "style="">
     <div class="profile-content">
       <div class="container">
         <div class="row">
@@ -91,7 +93,7 @@ margin-bottom: 30px;
 
      </div>
      <div class="col-sm">
-           <h2 class="text-center font-weight-normal"style="color:#112D4E;padding-bottom:40px;padding-top:40px;"> Trajets <h2>
+           <h2 class="text-center font-weight-normal"style="color:#112D4E;padding-bottom:40px;padding-top:40px;">  <h2>
         <% if (propo != ''){%> <% propo.forEach(function(propo) { %>
        <div class="card" style="width: ;display:inline-block;height:">
          <div class="card-body">
@@ -165,6 +167,7 @@ margin-bottom: 30px;
       </li>
     </ul>
   </div>
+
 </footer>
   <script type="text/javascript">
   function autocomplete(inp, arr) {

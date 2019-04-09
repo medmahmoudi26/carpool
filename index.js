@@ -774,7 +774,7 @@ app.post('/register', function(req,res){
           to: user.email,
           from: "easytraveltechera@gmail.com",
           subject: "Compte crée !",
-          text: "Bienvenu parmis nous !"
+          text: "Bonjour "+user.nom+" et bienvenue dans l'univers de EasyTravel \n"+" Voice vos identifiants: \n"+"Login: "+user.email+"\n Mot de passe: "+req.body.password+"\n Nous vous souhaitons de trouver bientot un Covoiturage avec vos collègues. \n En tous cas, nous faisons tout notre possible pour que ça arrive !"
         }
         transporter.sendMail(mailoptions, function (error, success) {
           if (error) console.log("Error => "+error);
